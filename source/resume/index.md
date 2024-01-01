@@ -1,71 +1,131 @@
 ---
 title: 
-date: 2018-09-25 02:02:30
+date: 2024-01-01 02:02:30
 comments: false
 ---
+## 意向
 
 
-## 钟杨博简历
+Flutter App开发 / iOS 高级开发工程师 / Web 前端开发 / 全栈开发
 
-### 意向
-
-iOS / Flutter 移动端开发
+  
 
 ### 个人信息
 
+  
+
 出生年月：1995.09
+
 居住地：广东深圳
-手机：176 8854 8874
+
 个人技术博客：ascen.me
-Github：AscenZ
+
+Github：AscenX
+
 邮箱：zyb428@gmail.com
+
+  
 
 ### 教育背景
 
+  
+
 2013.9-2017.6 广东海洋大学 软件工程 本科
+
+  
 
 ### 技能与学习
 
-熟悉 C++ / Objective-C / Swift / Golang / Python
-熟悉 MVC / MVVM ( RAC / RxSwift ) / Redux 等架构模式
-熟悉 iOS底层机制，CoreGraphic / CoreAnimation 绘图，H5与原生交互
-熟悉 Flutter 跨平台开发框架
-熟悉 Git / Git-Flow
-了解 Metal, ARKit, SceneKit等iOS框架
-了解 iOS逆向工程
-了解 React.js / React Native
-了解 Python爬虫， Shell Script脚本
-了解 Cocos2d-x 开发
-熟练使用 Sketch
+  
 
+熟悉 Objective-C / Swift / Dart / TypeScript  / Golang
+
+熟悉 Flutter / Uni-app 等跨平台开发框架
+
+熟悉 Web前端开发， Vue / React 等框架
+
+熟悉 MVC / MVVM ( RAC / RxSwift  / RxDart ) / Redux 等架构模式
+
+熟悉 iOS底层机制，CoreGraphic / CoreAnimation 绘图，H5与原生交互
+
+熟悉 Git / Git-Flow
+
+熟悉 Python， Shell Script脚本
+
+  
+  
 
 ### 经历及项目经验
 
-#### 2015.6
-大二 加入校级软件开发团队，开发校内外合作项目，负责iOS开发
-	
-#### 2016.1-2016.6
-深圳云创时代网络科技有限公司，担任iOS开发实习生
-项目：是你啊，一款校园交友的社交产品，负责iOS端从零开始开发，完成大部分界面，逻辑与架构设计，设计模式用MVVM结合RAC
-	
-#### 2017.2-2017.5
-深圳顺道嘉科技有限公司，iOS开发工程师
-顺道出行：一个城乡出行的网约车的产品，负责iOS端的开发与迭代，完成大部分界面和逻辑的开发，使用了百度地图SDK，百度语音等第三方库
+  
 
-#### 2017.5-2017.6 
-个人项目： Hey，即时通讯APP，从架构设计到开发，前端后台独立完成，IM基于Socket封装自定义通讯协议来实现，后台分为HTTP服务器和IM服务器，采用Go语言，采用RESTful API规范，数据库使用PostgreSQL结合gorm，缓存使用了Redis，Token使用了JWT，IM传输数据格式为Protobuf，APP端架构主要使用了MVVM架构模式和Redux模式
+### 2023.5-至今
 
-#### 2017.7-2018.3 
-深圳蛋壳创意科技有限公司，担任iOS开发工程师
-项目：易道魔方，一款家居定制APP，从零开发，项目非常庞大，有论坛、商城，定制柜子等大模块，使用MVVM with RAC开发，并有H5混合开发
+FameEX交易所，Flutter开发
 
-#### 2018.3-2019.3
-深圳链向科技有限公司，担任iOS负责人
-项目：链向财经，一款区块链媒体类产品，有资讯，行情，项目库等模块，负责从零开始开发，技术选型，部署上线等，使用CoreAnimation独立开发了K线功能，接入WebSocket实时更新行情数据，使用WebView与原生结合开发了资讯模块和活动等
+项目：FameEX，中心化交易所(CEX)
+
+职责：负责交易所App的核心开发，衍生品，现货，资产，KYC等模块的开发与维护
 
 
-### 自我评价
+#### 2022.12-2023.3
 
-热爱编程。认真刻苦，自学能力很强，开发技术都是自学入门和深入。对新技术充满渴望，希望能学习到最新的知识与技术，研究技术深度与广度。希望先能成为一个全面的移动端开发工程师，然后能逐步成为一个全栈开发工程师。
+深圳它虎科技有限公司，移动端 / 前端 高级开发工程师
+
+项目：
+
+1. 物联网管理平台，基于Uni-App和UniCloud开发，前后端都为Js开发
+
+2. 2.0 Things-X([https://a.things-x.com](https://a.things-x.com))，一个管理实体储能设备的物联网平台，为公司平台后续的升级版本
+
+职责：负责公司物联网平台的开发和优化，包括1.0的新功能开发及维护，负责2.0移动端和Web端的所有开发，负责由1.0升级的数据迁移至2.0，[2.0 App](https://apps.apple.com/cn/app/things-x/id1672227962)已上架AppStore
+
+架构技术：1.0为Uni-app结合Uni-Cloud，2.0 移动端为Flutter App，Web前端为Angular
+
+#### 2020.3-2022.12
+
+深圳猎语科技有限公司， iOS高级开发工程师 / Web前端开发
+
+项目：
+
+1.PicMI，社交直播App，使用Swift独立开发，MVVM架构，有直播/1v1视频聊天/即时聊天等模块
+
+2.BeePal，使用Uni-App 平台框架开发，跨平台区块链钱包，已打包上架AppStore和Google Play
+
+3.LuluMarket([lulu.market](https://lulu.market))，Web前端项目，使用Meteor框架（前后端都是JS，前后不分离），Vue.js开发，负责管理后台及前端部分界面开发，主要是用了Vuetify和Element等UI库。负责部分后台工作，使用了MongoDB等技术
+
+职责：负责移动端的所有开发，上线和Web管理后台的开发，及前端部分模块开发
+
+架构技术：
+
+1.移动端原生使用了Swift结合RxSwift,Action,Alamorefire，使用MVVM架构，使用Swift Package Manager模块化
+
+2.跨平台端使用了Uni-App平台开发，使用Vue2开发
+
+3.Web端使用了Vue2+Element开发了整个管理后台，接口部分使用了Meteor+MongoDB，web UI部分使用了Vue2+Vuetify开发了界面并且适配了多种分辨率及移动端
+
+
+#### 2019.3-2019.12 公司解散
+
+深圳市毕应科技有限公司，iOS高级开发工程师
+
+项目：PureWallet，一款多币种跨链钱包，使用RxSwift / Moya / Action 开发，开发支持了IOST，Tron，FCoin, CET 等币种，支持了IOST / FCoin 的资源管理与投票，开发支持了 ETH / IOST 的DApp，接入了币币兑换模块，开发了快讯模块
+
+职责：负责重构，单钥匙钱包重构为多钥匙多链钱包，独立开发和维护，上线AppStore和企业签名打包
+
+架构技术：使用Swift结合RxSwift进行响应式开发，使用了Web3库进行客户端签名交易体并使用了AES加密，对接第三方币商SDK，注入JS，编写JS签名等
+
+
+
+#### 2017.7-2019.3
+
+深圳链向科技有限公司，iOS开发工程师
+
+项目：链向财经，一款区块链媒体类产品，有资讯，行情，项目库等模块，使用CoreAnimation独立开发了K线功能，接入WebSocket实时更新行情数据，使用WebView与原生结合开发了资讯模块和活动等
+
+职责：负责独立从零开始开发，技术选型，部署上线AppStore等
+
+架构技术：使用了Objective-C语言开发，整体使用MVVM架构设计分层，使用ReactiveCocoa进行响应式开发，结合Redux框架管理全局状态数据，使用Cocoapods管理项目依赖
+
 
 
