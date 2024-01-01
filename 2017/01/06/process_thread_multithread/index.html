@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/stan-touch.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/stan-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/stan-16x16.png">
+  <link rel="mask-icon" href="/images/stan.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="进程 Process进程是正在运行的程序的实例，一个任务就是一个进程如下图，每一个运行的程序就是一个进程，有系统的，也有用户的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程、线程理解及多线程">
+<meta property="og:url" content="http://ascen.me/2017/01/06/process_thread_multithread/index.html">
+<meta property="og:site_name" content="Ascen的羽毛">
+<meta property="og:description" content="进程 Process进程是正在运行的程序的实例，一个任务就是一个进程如下图，每一个运行的程序就是一个进程，有系统的，也有用户的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-04-064747.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-04-182025.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-05-104836.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-05-195338.jpg">
+<meta property="article:published_time" content="2017-01-06T14:42:18.000Z">
+<meta property="article:modified_time" content="2024-01-01T17:17:22.049Z">
+<meta property="article:author" content="Ascen Zhong">
+<meta property="article:tag" content="多线程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-04-064747.jpg">
+
+
+<link rel="canonical" href="http://ascen.me/2017/01/06/process_thread_multithread/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2017/01/06/process_thread_multithread/","path":"2017/01/06/process_thread_multithread/","title":"进程、线程理解及多线程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>进程、线程理解及多线程 | Ascen的羽毛</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ascen的羽毛</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B-Process"><span class="nav-number">1.</span> <span class="nav-text">进程 Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-IPC-Inter-Process-Communication"><span class="nav-number">2.</span> <span class="nav-text">进程间通信 IPC (Inter-Process Communication)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5-Synchronization"><span class="nav-number">2.1.</span> <span class="nav-text">进程的同步 Synchronization</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PThreads-POSIX-Threads"><span class="nav-number">3.1.</span> <span class="nav-text">PThreads ( POSIX Threads )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81"><span class="nav-number">3.2.</span> <span class="nav-text">互斥锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GCD"><span class="nav-number">3.3.</span> <span class="nav-text">GCD</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ascen Zhong"
+      src="/images/stan.png">
+  <p class="site-author-name" itemprop="name">Ascen Zhong</p>
+  <div class="site-description" itemprop="description">Ascen`s blog</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AscenX" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AscenX" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zyb428@gmail.com" title="E-Mail → mailto:zyb428@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2017/01/06/process_thread_multithread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen`s blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="进程、线程理解及多线程 | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          进程、线程理解及多线程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-01-06 22:42:18" itemprop="dateCreated datePublished" datetime="2017-01-06T22:42:18+08:00">2017-01-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-02 01:17:22" itemprop="dateModified" datetime="2024-01-02T01:17:22+08:00">2024-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="进程-Process"><a href="#进程-Process" class="headerlink" title="进程 Process"></a>进程 Process</h3><p>进程是正在运行的程序的实例，一个任务就是一个进程<br>如下图，每一个运行的程序就是一个进程，有系统的，也有用户的</p>
+<span id="more"></span>
+
+<p><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-04-064747.jpg" alt="process"></p>
+<h3 id="进程间通信-IPC-Inter-Process-Communication"><a href="#进程间通信-IPC-Inter-Process-Communication" class="headerlink" title="进程间通信 IPC (Inter-Process Communication)"></a>进程间通信 IPC (Inter-Process Communication)</h3><p>至少两个进程或县城建传送数据或信号的一些技术和方法，进程是彼此隔离的，为了让不同进程互相访问资源并协调工作，所以要进程间通信</p>
+<p>主要的IPC方法有</p>
+<ul>
+<li><p>文件</p>
+<p>  每个进程都可以使用文件</p>
+</li>
+<li><p>信号</p>
+<p>  可以通过发送信号给一个线程，操作系统可以终端进程的正常控制流程，任何非原子(nonatomic)操作都会被中断。</p>
+</li>
+</ul>
+<p>例如我们在终端运行了某个进程的时候，Ctrl-C发送INT信号，该进程会被终止，Ctrl-Z发送TSTP信号，该进程会被挂起</p>
+<ul>
+<li><p>Socket (Unix domain socket)</p>
+<p>  用C语言写成的应用程序开发库，可用于进程间通信。在系统内核里，Socket可以被系统进程引用，两个进程可以同时使用一个Socket来通信</p>
+</li>
+<li><p>消息队列 Message queue</p>
+<p>  可以在进程间通信或在同一进程的不同线程中通信。消息队列是异步的，一个进程通知以一个进程发生了一个事件，不需要等待，但是接收者必须轮询消息队列，才能收到最近的消息</p>
+</li>
+<li><p>管道</p>
+<p>  是一个由标准输入输出链接起来的进程集合，每一个进程的输出被直接作为下一个进程的输入，例如在终端中输入 ls -l | less，这样ls -l的输出作为输入到less分页器中。</p>
+</li>
+</ul>
+<p>进程间的通信便是一个进程的输出作为另一个进程输入。</p>
+<p>在大多数类UNIX操作系统中，管线上的所有进程同时启动，输入输出流也已经被正确地连接，并且这些进程被调度程序所管理。最为重要的一点就是，所有的UNIX管道和其他管道实现不一样的地方就是缓存的概念：输出进程可能会以每秒5000 byte的速度输出，但是接收进程也许每秒只能接收100 byte，但不会有数据丢失。原因就是管道上游的进程的所有输出都会被放入一个队列中。当下游进程开始接收数据时，操作系统就会将数据从队列传至接收进程，并将传完的数据从队列中移除。当缓存队列空间不足时，上游进程会被终止，直到接收进程读取数据为上游进程腾出空间。在Linux中，缓存队列的大小是65536 byte。</p>
+<ul>
+<li>信号量 Semaphore</li>
+</ul>
+<p>计数信号量具备两种操作动作，之前称为 V（又称signal( )）与 P（wait( )）。 V操作会增加信号量 S的数值，P操作会减少它。<br>两个进程共享信号量sv，一旦其中一个进程执行了P(sv)操作，它将得到信号量，并可以进入临界区，使sv减1。而第二个进程将被阻止进入临界区，因为当它试图执行P(sv)时，sv为0，它会被挂起以等待第一个进程离开临界区域并执行V(sv)释放信号量，这时第二个进程就可以恢复执行。<br>互斥锁(Mutex)也是这样实现的。信号量也可以用于同步，一般同步信号量的初值为0，互斥信号量的初值为1.</p>
+<ul>
+<li>共享内存</li>
+</ul>
+<p>可以被多个进程存取的内存</p>
+<h4 id="进程的同步-Synchronization"><a href="#进程的同步-Synchronization" class="headerlink" title="进程的同步 Synchronization"></a>进程的同步 Synchronization</h4><p>进程的同步是解决进程间协作关系的手段，多个线程基于某个条件来协调它们的活动，一个进程的执行依赖于另一个协作进程的消息或信号，当一个进程没有得到来自于另一个进程的消息或信号时则需等待，直到消息或信号到达才被唤醒</p>
+<p>主要的同步方法有</p>
+<ul>
+<li>私有信号量<br>  我觉得用管道和Socket也可以</li>
+<li>线程 Thread<br>  每一个进程中至少有一个线程，你看上面的图有的进程甚至有上百个线程</li>
+</ul>
+<p>线程是进程中的调度单位，例如打开QQ，就运行了一个进程，QQ开一个线程传输文字，开一个线程传输图片，或者下载软件下载东西的时候，开一个线程下载某一部分，再开另一个线程下载另一部分。</p>
+<p>同一进程中的多条线程共享该进程的全部系统资源，但是他们都有各自的调用栈，寄存器环境和线程本地存储。</p>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><h4 id="PThreads-POSIX-Threads"><a href="#PThreads-POSIX-Threads" class="headerlink" title="PThreads ( POSIX Threads )"></a>PThreads ( POSIX Threads )</h4><p>PThreads是基于C语言的多线程方案</p>
+<p>创建线程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    pthread_t pt;</span><br><span class="line">    pthread_create(&amp;pt, NULL, thread_func, NULL);</span><br><span class="line">    </span><br><span class="line">    pthread_t pt2;</span><br><span class="line">    apt = pthread_create(&amp;pt2, NULL, thread_func2, NULL);</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; 10; ++i) &#123;</span><br><span class="line">        NSLog(@&quot;1111111111 ---- %d&quot;,i);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void *thread_func(void *atgs)&#123;</span><br><span class="line">    int i;</span><br><span class="line">    for(i = 0;i &lt; 10;++i)&#123;</span><br><span class="line">        NSLog(@&quot;2222222222 ---- %d&quot;,i);</span><br><span class="line">    &#125;</span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void *thread_func2(void *atgs)&#123;</span><br><span class="line">    int i;</span><br><span class="line">    for(i = 0;i &lt; 10;++i)&#123;</span><br><span class="line">        NSLog(@&quot;3333333333 ---- %d&quot;,i);</span><br><span class="line">        if(i == 5)&#123;</span><br><span class="line">            pthread_exit(NULL);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>pthread_create(..)</code>是创建一个线程的方法，第三个参数需要传入一个C函数指针，OC中的方法不行</p>
+<p>上面创建了两个线程，然后在viewDidLoad里面也输出0到10，可以看到结果是3个线程里面的方法随机输出</p>
+<p><code>pthread_exit(NULL)</code>是退出当线程，可以看到当i&#x3D;&#x3D;5的时候退出打印3的线程</p>
+<p><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-04-182025.jpg"></p>
+<p><code>pthread_once</code> 表示永远只执行一次</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pthread_once_t pot;</span><br><span class="line">pthread_once(&amp;pot, thread_once);</span><br></pre></td></tr></table></figure>
+
+<h4 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pthread_mutex_t mt;</span><br><span class="line">pthread_mutex_init(&amp;mt, NULL);</span><br><span class="line">//...</span><br><span class="line">pthread_mutex_lock(&amp;mt);</span><br><span class="line">//互斥的操作...</span><br><span class="line">pthread_mutex_unlock(&amp;mt);</span><br></pre></td></tr></table></figure>
+
+<p>简单例子<br>现在有一个方法里面有一个计数cnt自增，并且暂停一秒（模拟方法需要执行很久的时候），有3个线程同时调用这个方法并且输出cnt值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void thread_mutextest(void)&#123;</span><br><span class="line">    ++cnt;</span><br><span class="line">    sleep(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时候sleep(1)完之后几乎3个线程一起读取cnt的值</p>
+<p><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-05-104836.jpg" alt="thread"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void thread_mutextest(void)&#123;</span><br><span class="line">    pthread_mutex_lock(&amp;mt);</span><br><span class="line">    ++cnt;</span><br><span class="line">    sleep(1);</span><br><span class="line">    pthread_mutex_unlock(&amp;mt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果加了互斥锁，每一秒只能有一个线程去读取cnt的值</p>
+<p>读写锁<br>互斥锁会把试图进入已保护的临界区的线程都阻塞，即同时只有一个线程持有锁<br>读写锁会根据当前进入临界区的线程是读还是写的属性来判断是否允许线程进入。多个读者可以同时持有锁。</p>
+<p>适用于读数据的频率远大于写数据的频率的应用中，这样可以在任何时刻运行多个读线程并发的执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pthread_rwlock_t rwt;</span><br><span class="line">pthread_rwlock_init(&amp;rwt, NULL);</span><br><span class="line"></span><br><span class="line">//读加锁</span><br><span class="line">pthread_rwlock_rdlock(&amp;rwt);</span><br><span class="line"></span><br><span class="line">//写加锁</span><br><span class="line">pthread_rwlock_wrlock(&amp;rwt);</span><br><span class="line"></span><br><span class="line">//读写锁的解锁</span><br><span class="line">pthread_rwlock_unlock(&amp;rwt);</span><br></pre></td></tr></table></figure>
+
+<h4 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h4><p>基本操作就不说了，网上太多文章了，很多都写的很好<br>但是我们来看看<code>dispatch_barrier</code></p>
+<p><code>dispatch_barrier</code>是一种屏障，也可以理解成一种锁，它让block里面的任务等待队列(queue)之前的任务执行完之后再执行，执行block里面的任务时，队列后面的任务也要等待。</p>
+<p>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//创建一个并行队列</span><br><span class="line">dispatch_queue_t dqt = dispatch_queue_create(&quot;concurrent_queue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(dqt, ^()&#123;</span><br><span class="line">    for(int i = 0;i &lt; 5;++i)&#123;</span><br><span class="line">        NSLog(@&quot;dispatch-1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(dqt, ^()&#123;</span><br><span class="line">    for(int i = 0;i &lt; 5;++i)&#123;</span><br><span class="line">        NSLog(@&quot;dispatch-2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(dqt, ^()&#123;</span><br><span class="line">    for(int i = 0;i &lt; 5;++i)&#123;</span><br><span class="line">        NSLog(@&quot;dispatch-barrier&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(dqt, ^()&#123;</span><br><span class="line">    for(int i = 0;i &lt; 5;++i)&#123;</span><br><span class="line">        NSLog(@&quot;dispatch-3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(dqt, ^()&#123;</span><br><span class="line">    for(int i = 0;i &lt; 5;++i)&#123;</span><br><span class="line">        NSLog(@&quot;dispatch-4&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<p><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-01-05-195338.jpg" alt="gcd"></p>
+<p>但是在全局队列(dispatch_get_global_queue(..))中不起作用，在自己创建的并行、串行队列中，使用同步、异步都起作用</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="http://www.imooc.com/article/11011">进程和线程定义，概念，区别详解 - 慕课网</a><br><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A1%8C%E7%A8%8B%E9%96%93%E9%80%9A%E8%A8%8A">进程间通信 - 维基百科</a></p>
+<p>还有网上很多文章</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/12/31/2016_summary/" rel="prev" title="2016年度总结">
+                  <i class="fa fa-angle-left"></i> 2016年度总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/01/08/cpp_raii_smart_ptr/" rel="next" title="C++ RAII与智能指针">
+                  C++ RAII与智能指针 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ascen Zhong</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/stan-touch.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/stan-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/stan-16x16.png">
+  <link rel="mask-icon" href="/images/stan.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="由于最近某个项目需要给别人测试，使用的是Ad Hoc方法首先登录开发者官网配置证书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ad Hoc测试">
+<meta property="og:url" content="http://ascen.me/2015/10/27/adhoc/index.html">
+<meta property="og:site_name" content="Ascen的羽毛">
+<meta property="og:description" content="由于最近某个项目需要给别人测试，使用的是Ad Hoc方法首先登录开发者官网配置证书">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027100118310-497055954.png">
+<meta property="og:image" content="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027101624154-609807275.png">
+<meta property="og:image" content="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027102331247-1201210840.png">
+<meta property="og:image" content="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027102524200-945274110.png">
+<meta property="og:image" content="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027102748544-523448479.png">
+<meta property="article:published_time" content="2015-10-27T11:04:40.000Z">
+<meta property="article:modified_time" content="2024-01-01T17:16:31.851Z">
+<meta property="article:author" content="Ascen Zhong">
+<meta property="article:tag" content="开发调试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027100118310-497055954.png">
+
+
+<link rel="canonical" href="http://ascen.me/2015/10/27/adhoc/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2015/10/27/adhoc/","path":"2015/10/27/adhoc/","title":"Ad Hoc测试"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Ad Hoc测试 | Ascen的羽毛</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ascen的羽毛</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%B7%BB%E5%8A%A0Certificates%EF%BC%8C%E4%BB%8E%E7%94%B5%E8%84%91%E8%8E%B7%E5%8F%96certSigningRequest%E7%84%B6%E5%90%8E%E6%B7%BB%E5%8A%A0%E8%BF%9B%E5%8E%BB"><span class="nav-number">1.</span> <span class="nav-text">1.添加Certificates，从电脑获取certSigningRequest然后添加进去</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%9C%A8Identifiers%E9%87%8C%E9%9D%A2%E7%9A%84App-IDs%E6%B7%BB%E5%8A%A0%E8%A6%81%E8%B0%83%E8%AF%95App%E7%9A%84Bundle-ID%E5%92%8C%E5%90%8D%E5%AD%97"><span class="nav-number">2.</span> <span class="nav-text">2.在Identifiers里面的App IDs添加要调试App的Bundle ID和名字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%9C%A8Devices%E9%87%8C%E9%9D%A2%E6%B7%BB%E5%8A%A0%E8%A6%81%E7%BB%99%E5%88%AB%E4%BA%BA%E6%B5%8B%E8%AF%95%E7%9A%84%E6%89%8B%E6%9C%BA%E7%9A%84UDID"><span class="nav-number">3.</span> <span class="nav-text">3.在Devices里面添加要给别人测试的手机的UDID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%9C%A8Provisioning-Profiles-%E9%87%8C%E9%9D%A2%E6%B7%BB%E5%8A%A0profiles%E7%9A%84%E6%97%B6%E5%80%99%E9%80%89%E6%8B%A9Ad-Hoc"><span class="nav-number">4.</span> <span class="nav-text">4.在Provisioning Profiles 里面添加profiles的时候选择Ad Hoc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E4%BF%9D%E5%AD%98%E4%B8%8B%E6%9D%A5%E8%AF%81%E4%B9%A6%E4%B9%8B%E5%90%8E%EF%BC%8C%E6%89%93%E5%BC%80Xcode%EF%BC%8C%E5%8F%8C%E5%87%BB%E8%AF%81%E4%B9%A6"><span class="nav-number">5.</span> <span class="nav-text">5.保存下来证书之后，打开Xcode，双击证书</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%9C%A8Xocde-Preferences-Account%E9%87%8C%E9%9D%A2%E6%B7%BB%E5%8A%A0%E5%88%9A%E6%89%8D%E8%AE%BE%E7%BD%AE%E8%AF%81%E4%B9%A6%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E5%B8%90%E5%8F%B7%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%B7%B2%E6%B7%BB%E5%8A%A0%E5%B0%B1%E8%B7%B3%E8%BF%87%E6%AD%A4%E6%AD%A5%E9%AA%A4"><span class="nav-number">6.</span> <span class="nav-text">6.在Xocde-Preferences-Account里面添加刚才设置证书的开发者帐号，如果已添加就跳过此步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E7%84%B6%E5%90%8E%E5%9C%A8%E9%A1%B9%E7%9B%AEPROJECT-Build-Settings-Code-Signing%E9%87%8C%E9%9D%A2%E7%9A%84Provisioning-Profile%E9%87%8C%E9%9D%A2%E6%B7%BB%E5%8A%A0%E4%B8%8B%E8%BD%BD%E7%9A%84Ad-Hoc%E8%AF%81%E4%B9%A6"><span class="nav-number">7.</span> <span class="nav-text">7.然后在项目PROJECT-Build Settings-Code Signing里面的Provisioning Profile里面添加下载的Ad Hoc证书</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Xcode%E8%8F%9C%E5%8D%95%E6%A0%8F%E4%B8%AD%E9%80%89%E6%8B%A9Product-Archive%EF%BC%8C%E5%8D%B3%E4%BC%9A%E5%BC%B9%E5%87%BAOrganizer%E7%AA%97%E5%8F%A3%EF%BC%88%E5%B7%B2%E7%BB%8FArchive%E8%BF%87%E4%BA%86%E5%8F%AF%E4%BB%A5%E4%BB%8E%E8%8F%9C%E5%8D%95%E6%A0%8FWindow-Organizer%E6%89%93%E5%BC%80%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">8.Xcode菜单栏中选择Product-Archive，即会弹出Organizer窗口（已经Archive过了可以从菜单栏Window-Organizer打开）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-%E4%BC%9A%E5%BC%B9%E5%87%BA%E7%AA%97%E5%8F%A3%E8%AE%A9%E4%BD%A0%E9%80%89%E6%8B%A9%E5%BC%80%E5%8F%91%E8%80%85%EF%BC%8C%E9%80%89%E6%8B%A9%E8%AE%BE%E7%BD%AE%E8%BF%87%E8%AF%81%E4%B9%A6%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85"><span class="nav-number">9.</span> <span class="nav-text">9.会弹出窗口让你选择开发者，选择设置过证书的开发者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-%E5%AF%BC%E5%87%BA"><span class="nav-number">10.</span> <span class="nav-text">10.导出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-%E9%80%89%E6%8B%A9Next"><span class="nav-number">11.</span> <span class="nav-text">11.选择Next</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-%E7%84%B6%E5%90%8E%E5%B0%B1%E7%94%9F%E6%88%90APP%E7%9A%84ipa%E4%BA%86%EF%BC%8C%E8%BF%99%E4%B8%AA%E7%A8%8B%E5%BA%8F%E5%B0%B1%E5%8F%AF%E4%BB%A5%E6%8B%BF%E5%8E%BB%E7%BB%99%E5%88%AB%E4%BA%BA%E6%B5%8B%E8%AF%95%E4%BA%86%E3%80%82"><span class="nav-number">12.</span> <span class="nav-text">12.然后就生成APP的ipa了，这个程序就可以拿去给别人测试了。</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ascen Zhong"
+      src="/images/stan.png">
+  <p class="site-author-name" itemprop="name">Ascen Zhong</p>
+  <div class="site-description" itemprop="description">Ascen`s blog</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AscenX" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AscenX" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zyb428@gmail.com" title="E-Mail → mailto:zyb428@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2015/10/27/adhoc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen`s blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Ad Hoc测试 | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ad Hoc测试
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2015-10-27 19:04:40" itemprop="dateCreated datePublished" datetime="2015-10-27T19:04:40+08:00">2015-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-02 01:16:31" itemprop="dateModified" datetime="2024-01-02T01:16:31+08:00">2024-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>由于最近某个项目需要给别人测试，使用的是Ad Hoc方法<br>首先登录开发者官网配置证书</p>
+<span id="more"></span>
+
+<h4 id="1-添加Certificates，从电脑获取certSigningRequest然后添加进去"><a href="#1-添加Certificates，从电脑获取certSigningRequest然后添加进去" class="headerlink" title="1.添加Certificates，从电脑获取certSigningRequest然后添加进去"></a>1.添加Certificates，从电脑获取certSigningRequest然后添加进去</h4><h4 id="2-在Identifiers里面的App-IDs添加要调试App的Bundle-ID和名字"><a href="#2-在Identifiers里面的App-IDs添加要调试App的Bundle-ID和名字" class="headerlink" title="2.在Identifiers里面的App IDs添加要调试App的Bundle ID和名字"></a>2.在Identifiers里面的App IDs添加要调试App的Bundle ID和名字</h4><h4 id="3-在Devices里面添加要给别人测试的手机的UDID"><a href="#3-在Devices里面添加要给别人测试的手机的UDID" class="headerlink" title="3.在Devices里面添加要给别人测试的手机的UDID"></a>3.在Devices里面添加要给别人测试的手机的UDID</h4><p>前几步都和真机调试一样，简单说明一下</p>
+<h4 id="4-在Provisioning-Profiles-里面添加profiles的时候选择Ad-Hoc"><a href="#4-在Provisioning-Profiles-里面添加profiles的时候选择Ad-Hoc" class="headerlink" title="4.在Provisioning Profiles 里面添加profiles的时候选择Ad Hoc"></a>4.在Provisioning Profiles 里面添加profiles的时候选择Ad Hoc</h4><p><img src="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027100118310-497055954.png" alt="Ad_Hoc"></p>
+<p>continue<br>　　选择要调试的App的App ID</p>
+<p>continue<br>　　选择开发者</p>
+<p>continue<br>　　选择要调试的手机（可以多选）</p>
+<p>continue<br>　　输入保存的证书的名字，然后Generate，生成之后要下载下来 　　</p>
+<h4 id="5-保存下来证书之后，打开Xcode，双击证书"><a href="#5-保存下来证书之后，打开Xcode，双击证书" class="headerlink" title="5.保存下来证书之后，打开Xcode，双击证书"></a>5.保存下来证书之后，打开Xcode，双击证书</h4><h4 id="6-在Xocde-Preferences-Account里面添加刚才设置证书的开发者帐号，如果已添加就跳过此步骤"><a href="#6-在Xocde-Preferences-Account里面添加刚才设置证书的开发者帐号，如果已添加就跳过此步骤" class="headerlink" title="6.在Xocde-Preferences-Account里面添加刚才设置证书的开发者帐号，如果已添加就跳过此步骤"></a>6.在Xocde-Preferences-Account里面添加刚才设置证书的开发者帐号，如果已添加就跳过此步骤</h4><h4 id="7-然后在项目PROJECT-Build-Settings-Code-Signing里面的Provisioning-Profile里面添加下载的Ad-Hoc证书"><a href="#7-然后在项目PROJECT-Build-Settings-Code-Signing里面的Provisioning-Profile里面添加下载的Ad-Hoc证书" class="headerlink" title="7.然后在项目PROJECT-Build Settings-Code Signing里面的Provisioning Profile里面添加下载的Ad Hoc证书"></a>7.然后在项目PROJECT-Build Settings-Code Signing里面的Provisioning Profile里面添加下载的Ad Hoc证书</h4><p>如果没有这个选项的话，再次双击生成的Ad Hoc证书</p>
+<p>Provisioning Profile上面的开发者全部选择设置了证书的开发者帐号</p>
+<p><img src="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027101624154-609807275.png" alt="Code_Signing"></p>
+<p>连接真机，看是否可以正常运行</p>
+<h4 id="8-Xcode菜单栏中选择Product-Archive，即会弹出Organizer窗口（已经Archive过了可以从菜单栏Window-Organizer打开）"><a href="#8-Xcode菜单栏中选择Product-Archive，即会弹出Organizer窗口（已经Archive过了可以从菜单栏Window-Organizer打开）" class="headerlink" title="8.Xcode菜单栏中选择Product-Archive，即会弹出Organizer窗口（已经Archive过了可以从菜单栏Window-Organizer打开）"></a>8.Xcode菜单栏中选择Product-Archive，即会弹出Organizer窗口（已经Archive过了可以从菜单栏Window-Organizer打开）</h4><p>然后选择Export，选择Save For Ad Hoc Deployment，然后Next</p>
+<p><img src="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027102331247-1201210840.png" alt="organizer"></p>
+<h4 id="9-会弹出窗口让你选择开发者，选择设置过证书的开发者"><a href="#9-会弹出窗口让你选择开发者，选择设置过证书的开发者" class="headerlink" title="9.会弹出窗口让你选择开发者，选择设置过证书的开发者"></a>9.会弹出窗口让你选择开发者，选择设置过证书的开发者</h4><h4 id="10-导出"><a href="#10-导出" class="headerlink" title="10.导出"></a>10.导出</h4><p><img src="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027102524200-945274110.png" alt="device_support"></p>
+<h4 id="11-选择Next"><a href="#11-选择Next" class="headerlink" title="11.选择Next"></a>11.选择Next</h4><p><img src="http://7xsnb0.com2.z0.glb.clouddn.com/756114-20151027102748544-523448479.png" alt="summary"></p>
+<p>1框框内会显示配置好的Ad Hoc证书，如果显示*，则出现问题，请登录开发者官网查看Ad Hoc证书是否valid（如果invalid则edit一下为valid）</p>
+<p>如果显示正确，就直接Next</p>
+<h4 id="12-然后就生成APP的ipa了，这个程序就可以拿去给别人测试了。"><a href="#12-然后就生成APP的ipa了，这个程序就可以拿去给别人测试了。" class="headerlink" title="12.然后就生成APP的ipa了，这个程序就可以拿去给别人测试了。"></a>12.然后就生成APP的ipa了，这个程序就可以拿去给别人测试了。</h4>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95/" rel="tag"># 开发调试</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/10/13/simply_controller_summary/" rel="prev" title="轻量化ViewController，读文章做的总结">
+                  <i class="fa fa-angle-left"></i> 轻量化ViewController，读文章做的总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/03/10/xmpp_simple_im/" rel="next" title="xmpp_simple_im">
+                  xmpp_simple_im <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ascen Zhong</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

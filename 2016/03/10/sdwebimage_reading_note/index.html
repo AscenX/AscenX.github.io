@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/stan-touch.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/stan-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/stan-16x16.png">
+  <link rel="mask-icon" href="/images/stan.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍github地址： https:&#x2F;&#x2F;github.com&#x2F;rs&#x2F;SDWebImage 简介一个异步图片下载及缓存的库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读SDWebImage笔记">
+<meta property="og:url" content="http://ascen.me/2016/03/10/sdwebimage_reading_note/index.html">
+<meta property="og:site_name" content="Ascen的羽毛">
+<meta property="og:description" content="介绍github地址： https:&#x2F;&#x2F;github.com&#x2F;rs&#x2F;SDWebImage 简介一个异步图片下载及缓存的库">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-03-10T14:07:06.000Z">
+<meta property="article:modified_time" content="2024-01-01T17:17:13.715Z">
+<meta property="article:author" content="Ascen Zhong">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Objective-C">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://ascen.me/2016/03/10/sdwebimage_reading_note/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2016/03/10/sdwebimage_reading_note/","path":"2016/03/10/sdwebimage_reading_note/","title":"读SDWebImage笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>读SDWebImage笔记 | Ascen的羽毛</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ascen的羽毛</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">类的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-SDWebImageOperation"><span class="nav-number">5.1.</span> <span class="nav-text">0.SDWebImageOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-NSData-ImageContentType"><span class="nav-number">5.2.</span> <span class="nav-text">1.NSData+ImageContentType</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-SDWebImageCompat"><span class="nav-number">5.3.</span> <span class="nav-text">2.SDWebImageCompat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-SDWebImageDecoder"><span class="nav-number">5.4.</span> <span class="nav-text">3.SDWebImageDecoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-UIView-WebCacheOperation"><span class="nav-number">5.5.</span> <span class="nav-text">4.UIView+WebCacheOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-SDWebImageDownloader"><span class="nav-number">5.6.</span> <span class="nav-text">5.SDWebImageDownloader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-SDWebImageDownloaderOperation"><span class="nav-number">5.7.</span> <span class="nav-text">6.SDWebImageDownloaderOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-SDWebImageManager"><span class="nav-number">5.8.</span> <span class="nav-text">7.SDWebImageManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-SDWebImagePrefetcher"><span class="nav-number">5.9.</span> <span class="nav-text">8.SDWebImagePrefetcher</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-UIImageView-WebCache"><span class="nav-number">5.10.</span> <span class="nav-text">9.UIImageView+WebCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-UIImage-GIF"><span class="nav-number">5.11.</span> <span class="nav-text">10.UIImage+GIF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ascen Zhong"
+      src="/images/stan.png">
+  <p class="site-author-name" itemprop="name">Ascen Zhong</p>
+  <div class="site-description" itemprop="description">Ascen`s blog</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AscenX" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AscenX" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zyb428@gmail.com" title="E-Mail → mailto:zyb428@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2016/03/10/sdwebimage_reading_note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen`s blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="读SDWebImage笔记 | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          读SDWebImage笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-03-10 22:07:06" itemprop="dateCreated datePublished" datetime="2016-03-10T22:07:06+08:00">2016-03-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-02 01:17:13" itemprop="dateModified" datetime="2024-01-02T01:17:13+08:00">2024-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>github地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/rs/SDWebImage">https://github.com/rs/SDWebImage</a></p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>一个异步图片下载及缓存的库</p>
+<span id="more"></span>
+
+<p>特性：</p>
+<ul>
+<li>一个扩展UIImageView分类的库，支持加载网络图片并缓存图片</li>
+<li>异步图片下载器</li>
+<li>异步图片缓存和自动图片有效期管理</li>
+<li>支持GIF动态图片</li>
+<li>支持WebP</li>
+<li>背景图片减压</li>
+<li>保证同一个URL不会再次下载</li>
+<li>保证无效的URL不会重新加载</li>
+<li>保证主线程不会死锁</li>
+<li>性能优越</li>
+<li>使用GCD和ARC</li>
+<li>支持ARM64位处理器</li>
+<li>用法不说了 github上有，挺简单的</li>
+</ul>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>只要有图片的url，就能下载到图片，使用SDWebImage的好处就是缓存机制，每次取图片先判断是否在内存中，再到缓存中查找，找到了直接加载，在缓存中找不到才重新下载，url也会记录，是否是失效的url，是则不会再尝试。下载到的图片会缓存，用于下次可以直接加载。图片下载，解码，转换都异步进行，不会阻塞主线程。</p>
+<h3 id="类的作用"><a href="#类的作用" class="headerlink" title="类的作用"></a>类的作用</h3><ul>
+<li><p>SDImageCache<br>设置缓存的类型，方式，路径等</p>
+</li>
+<li><p>SDWebImageCompat<br>兼容类，定义了很多宏和一个转换图片的方法</p>
+</li>
+<li><p>SDWebImageDecoder<br>解码器，让图片色彩转换（涉及到color space）</p>
+</li>
+<li><p>SDWebImageDownloader<br>下载器，设置下载相关，要用到SDWebImageDownloaderOperation</p>
+</li>
+<li><p>SDWebImageDownloaderOperation<br>下载器的操作</p>
+</li>
+<li><p>SDWebImageManager<br>管理图片下载，取消操作，判断url是否已缓存等</p>
+</li>
+<li><p>SDWebImageOperation<br>图片操作，后面很多类都要用到</p>
+</li>
+<li><p>SDWebImagePrefetcher<br>预抓取器，预先下载urls中的图片</p>
+</li>
+<li><p>UIButton+WebCache<br>按钮图片的缓存</p>
+</li>
+<li><p>UIImage+GIF<br>缓存gif</p>
+</li>
+<li><p>NSData+ImageContentType<br>判断图片的类型,png&#x2F;jpeg&#x2F;gif&#x2F;webp</p>
+</li>
+<li><p>UIImage+MultiFormat<br>缓存多种格式的图片，要用到NSData+ImageContentType的判断图片类型方法和UIImage+GIF的判断是否为gif图片方法，以及ImageIO里面的方法</p>
+</li>
+<li><p>UIImageView+HighlightedWebCache<br>缓存高亮图片</p>
+</li>
+<li><p>UIImageView+WebCache<br>主要用到这个，加载及缓存UIImageView的图片</p>
+</li>
+<li><p>UIView+WebCacheOperation<br>缓存的操作，有缓存，取消操作，移除缓存</p>
+</li>
+</ul>
+<h3 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h3><p>先讲一些比较边缘的方法</p>
+<h4 id="0-SDWebImageOperation"><a href="#0-SDWebImageOperation" class="headerlink" title="0.SDWebImageOperation"></a>0.SDWebImageOperation</h4><p>图片操作，只有头文件，定义了协议SDWebImageOperation，里面也只有取消方法<br>这个类后面很多类都要用到。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@protocol SDWebImageOperation &lt;NSObject&gt;</span><br><span class="line">- (void)cancel;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-NSData-ImageContentType"><a href="#1-NSData-ImageContentType" class="headerlink" title="1.NSData+ImageContentType"></a>1.NSData+ImageContentType</h4><p>这个文件是NSData的分类，只有一个方法，传入图片数据，根据图片的头标识来确定图片的类型。头标识都不一样，只需获取文件头字节，对比十六进制信息，判断即可。</p>
+<p>图片文件    头标识	十六进制头字节<br>jpeg&#x2F;jpg	FFD8	0xFF<br>png	8950	0x89<br>gif	4749	0x47<br>tiff	4D4D &#x2F; 4949	0x49&#x2F;0x4D<br>Webp格式开头是0x52，但是还有可能是其他类型文件，所以要识别前缀为<br>52 49 46 46 对应 RIFF<br>后缀 57 45 42 50 对应 WEBP，符合这些条件的才是webp图片文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">+ (NSString *)sd_contentTypeForImageData:(NSData *)data &#123;</span><br><span class="line">    uint8_t c;</span><br><span class="line">    [data getBytes:&amp;c length:1];</span><br><span class="line">    switch (c) &#123;</span><br><span class="line">        case 0xFF:</span><br><span class="line">            return @&quot;image/jpeg&quot;;</span><br><span class="line">        case 0x89:</span><br><span class="line">            return @&quot;image/png&quot;;</span><br><span class="line">        case 0x47:</span><br><span class="line">            return @&quot;image/gif&quot;;</span><br><span class="line">        case 0x49:</span><br><span class="line">        case 0x4D:</span><br><span class="line">            return @&quot;image/tiff&quot;;</span><br><span class="line">        case 0x52:</span><br><span class="line">            // R as RIFF for WEBP</span><br><span class="line">            if ([data length] &lt; 12) &#123;</span><br><span class="line">                return nil;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            NSString *testString = [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(0, 12)] encoding:NSASCIIStringEncoding];</span><br><span class="line">            if ([testString hasPrefix:@&quot;RIFF&quot;] &amp;&amp; [testString hasSuffix:@&quot;WEBP&quot;]) &#123;</span><br><span class="line">                return @&quot;image/webp&quot;;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-SDWebImageCompat"><a href="#2-SDWebImageCompat" class="headerlink" title="2.SDWebImageCompat"></a>2.SDWebImageCompat</h4><p>兼容类，这个类定义了很多宏还有一个伸缩图片的方法，宏就不说了<br>这个方法定义成C语言式的内联方法<br>核心代码如下，传入key和图片，如果key中出现@2x就设定scale为2.0,出现@3x就设定scale为3.0，然后伸缩图片</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CGFloat scale = [UIScreen mainScreen].scale;</span><br><span class="line">if (key.length &gt;= 8) &#123;</span><br><span class="line">    NSRange range = [key rangeOfString:@&quot;@2x.&quot;];</span><br><span class="line">    if (range.location != NSNotFound) &#123;</span><br><span class="line">        scale = 2.0;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    range = [key rangeOfString:@&quot;@3x.&quot;];</span><br><span class="line">    if (range.location != NSNotFound) &#123;</span><br><span class="line">        scale = 3.0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">UIImage *scaledImage = [[UIImage alloc] initWithCGImage:image.CGImage scale:scale orientation:image.imageOrientation];</span><br><span class="line">image = scaledImage;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-SDWebImageDecoder"><a href="#3-SDWebImageDecoder" class="headerlink" title="3.SDWebImageDecoder"></a>3.SDWebImageDecoder</h4><p>这个是解码器类，只定义了一个解码方法，传入图片，返回的也是图片<br>CGImageRef是一个指针类型。typedef struct CGImage *CGImageRef;<br>获取传入图片的alpha信息，然后判断是否符合苹果定义的CGImageAlphaInfo，如果是就返回原图片</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CGImageRef imageRef = image.CGImage;</span><br><span class="line"> </span><br><span class="line">CGImageAlphaInfo alpha = CGImageGetAlphaInfo(imageRef);</span><br><span class="line">BOOL anyAlpha = (alpha == kCGImageAlphaFirst ||</span><br><span class="line">                 alpha == kCGImageAlphaLast ||</span><br><span class="line">                 alpha == kCGImageAlphaPremultipliedFirst ||</span><br><span class="line">                 alpha == kCGImageAlphaPremultipliedLast);</span><br><span class="line"> </span><br><span class="line">if (anyAlpha) &#123; </span><br><span class="line">    return image; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后获取图片的宽高和color space（指定颜色值如何解释），判断color space是否支持，不支持就转换为支持的模式（RGB)，再用图形上下文根据获得的信息画出来，释放掉创建的CG指针再返回图片</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">size_t width = CGImageGetWidth(imageRef);</span><br><span class="line">size_t height = CGImageGetHeight(imageRef);</span><br><span class="line"> </span><br><span class="line">// current</span><br><span class="line">CGColorSpaceModel imageColorSpaceModel = CGColorSpaceGetModel(CGImageGetColorSpace(imageRef));</span><br><span class="line">CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(imageRef);</span><br><span class="line"> </span><br><span class="line">bool unsupportedColorSpace = (imageColorSpaceModel == 0 || imageColorSpaceModel == -1 || imageColorSpaceModel == kCGColorSpaceModelCMYK || imageColorSpaceModel == kCGColorSpaceModelIndexed);</span><br><span class="line">if (unsupportedColorSpace)</span><br><span class="line">    colorspaceRef = CGColorSpaceCreateDeviceRGB();</span><br><span class="line"> </span><br><span class="line">CGContextRef context = CGBitmapContextCreate(NULL, width,</span><br><span class="line">                                             height,</span><br><span class="line">                                             CGImageGetBitsPerComponent(imageRef),</span><br><span class="line">                                             0,</span><br><span class="line">                                             colorspaceRef,</span><br><span class="line">                                             kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);</span><br><span class="line">CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);</span><br><span class="line">CGImageRef imageRefWithAlpha = CGBitmapContextCreateImage(context);</span><br><span class="line">UIImage *imageWithAlpha = [UIImage imageWithCGImage:imageRefWithAlpha scale:image.scale orientation:image.imageOrientation];</span><br><span class="line">if (unsupportedColorSpace)</span><br><span class="line">    CGColorSpaceRelease(colorspaceRef);</span><br><span class="line">CGContextRelease(context);</span><br><span class="line">CGImageRelease(imageRefWithAlpha);</span><br><span class="line"> </span><br><span class="line">return imageWithAlpha;</span><br></pre></td></tr></table></figure>
+
+<p>这个算是核心部分</p>
+<h4 id="4-UIView-WebCacheOperation"><a href="#4-UIView-WebCacheOperation" class="headerlink" title="4.UIView+WebCacheOperation"></a>4.UIView+WebCacheOperation</h4><p>缓存操作的UIView的分类，支持三种操作，也是整个库中比较核心的操作。<br>但是首先我们来了解三种操作都要用到的存储数据的方法。<br>这两个方法用的是OC中runtime方法，原理是两个文件关联方法，和上层的存储方法差不多，传入value和key对应，取出也是根据key取出value<br>object传入self即可</p>
+<p>1.设置关联方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//传入object和key和value，policy</span><br><span class="line">//policy即存储方式，和声明使用几种属性大致相同，有copy,retain,copy,retain_nonatomic,assign 五种）</span><br><span class="line"> </span><br><span class="line">void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)</span><br></pre></td></tr></table></figure>
+
+<p>2.取出方法</p>
+<p>&#x2F;&#x2F;传入object和key返回value<br>id objc_getAssociatedObject(id object, const void *key)<br>这个方法是三种操作都要用到的，获得数据<br>这个方法是使用前面两个方法，根据缓存加载数据<br>有缓存则从缓存中取出数据，没有则缓存数据，返回格式是字典格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (NSMutableDictionary *)operationDictionary &#123;</span><br><span class="line">    NSMutableDictionary *operations = objc_getAssociatedObject(self, &amp;loadOperationKey);</span><br><span class="line">    if (operations) &#123;</span><br><span class="line">        return operations;</span><br><span class="line">    &#125;</span><br><span class="line">    operations = [NSMutableDictionary dictionary];</span><br><span class="line">    objc_setAssociatedObject(self, &amp;loadOperationKey, operations, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">    return operations;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来是三种操作</p>
+<p>一.加载图片根据是否有缓存<br>从获得数据方法获得数据，传入key，先调用第二个方法停止操作，再根据key缓存数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageLoadOperation:(id)operation forKey:(NSString *)key &#123;</span><br><span class="line">    [self sd_cancelImageLoadOperationWithKey:key];</span><br><span class="line">    NSMutableDictionary *operationDictionary = [self operationDictionary];</span><br><span class="line">    [operationDictionary setObject:operation forKey:key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二.取消加载图片如果有缓存<br>先获得方法一的返回字典数据，传入key在返回的字典中查找是否已经存在，如果存在则取消所有操作<br>conformsToProtocol方法如果符合这个协议（协议中声明了取消方法），调用协议中的取消方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_cancelImageLoadOperationWithKey:(NSString *)key &#123;</span><br><span class="line">    // Cancel in progress downloader from queue</span><br><span class="line">    NSMutableDictionary *operationDictionary = [self operationDictionary];</span><br><span class="line">    id operations = [operationDictionary objectForKey:key];</span><br><span class="line">    if (operations) &#123;</span><br><span class="line">        if ([operations isKindOfClass:[NSArray class]]) &#123;</span><br><span class="line">            for (id &lt;SDWebImageOperation&gt; operation in operations) &#123;</span><br><span class="line">                if (operation) &#123;</span><br><span class="line">                    [operation cancel];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if ([operations conformsToProtocol:@protocol(SDWebImageOperation)])&#123;</span><br><span class="line">            [(id&lt;SDWebImageOperation&gt;) operations cancel];</span><br><span class="line">        &#125;</span><br><span class="line">        [operationDictionary removeObjectForKey:key];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三.移除缓存<br>获得方法一的数据，传入key如果key对应的数据在数据中则移除</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_removeImageLoadOperationWithKey:(NSString *)key &#123;</span><br><span class="line">    NSMutableDictionary *operationDictionary = [self operationDictionary];</span><br><span class="line">    [operationDictionary removeObjectForKey:key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-SDWebImageDownloader"><a href="#5-SDWebImageDownloader" class="headerlink" title="5.SDWebImageDownloader"></a>5.SDWebImageDownloader</h4><p>下载器类，需要用到SDWebImageDownloaderOperation类，下载器操作，后面会说到</p>
+<p>定义了一些属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//下载队列的最大下载数</span><br><span class="line">@property (assign, nonatomic) NSInteger maxConcurrentDownloads;</span><br><span class="line">//当前下载数</span><br><span class="line">@property (readonly, nonatomic) NSUInteger currentDownloadCount;</span><br><span class="line">//下载超时的时间</span><br><span class="line">@property (assign, nonatomic) NSTimeInterval downloadTimeout;</span><br><span class="line">//是否解压图片，默认是</span><br><span class="line">@property (assign, nonatomic) BOOL shouldDecompressImages;</span><br><span class="line">//下载器顺序，枚举类型，有两种，先进先出，还是后进先出</span><br><span class="line">@property (assign, nonatomic) SDWebImageDownloaderExecutionOrder executionOrder;</span><br><span class="line"> </span><br><span class="line">#####还有一些用户属性</span><br><span class="line">//url证书</span><br><span class="line"> </span><br><span class="line">@property (strong, nonatomic) NSURLCredential *urlCredential;</span><br><span class="line">//用户名</span><br><span class="line">@property (strong, nonatomic) NSString *username;</span><br><span class="line">//密码</span><br><span class="line">@property (strong, nonatomic) NSString *password;</span><br><span class="line">//头像过滤器，block指针类型，接受url和字典headers</span><br><span class="line">@property (nonatomic, copy) SDWebImageDownloaderHeadersFilterBlock headersFilter;</span><br></pre></td></tr></table></figure>
+
+<p>init方法<br>初始化了一些属性和写好http请求头</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (id)init &#123;</span><br><span class="line">    if ((self = [super init])) &#123;</span><br><span class="line">        _operationClass = [SDWebImageDownloaderOperation class];</span><br><span class="line">        _shouldDecompressImages = YES;</span><br><span class="line">        _executionOrder = SDWebImageDownloaderFIFOExecutionOrder;</span><br><span class="line">        _downloadQueue = [NSOperationQueue new];</span><br><span class="line">        _downloadQueue.maxConcurrentOperationCount = 6;</span><br><span class="line">        _URLCallbacks = [NSMutableDictionary new];</span><br><span class="line">#ifdef SD_WEBP</span><br><span class="line">        _HTTPHeaders = [@&#123;@&quot;Accept&quot;: @&quot;image/webp,image/*;q=0.8&quot;&#125; mutableCopy];</span><br><span class="line">#else</span><br><span class="line">        _HTTPHeaders = [@&#123;@&quot;Accept&quot;: @&quot;image/*;q=0.8&quot;&#125; mutableCopy];</span><br><span class="line">#endif</span><br><span class="line">        _barrierQueue = dispatch_queue_create(&quot;com.hackemist.SDWebImageDownloaderBarrierQueue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">        _downloadTimeout = 15.0;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心方法<br>传入url，下载器选项（接下来会说），进度block，完成回调block</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageDownloaderOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageDownloaderCompletedBlock)completedBlock;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法非常复杂，定义了http请求，定义了SDWebImageDownloaderOperation实例，即下载器操作，初始化过程非常复杂，用到了http请求，用到了前面定义的那些属性，最后返回这个操作，这个过程建议去看源码</p>
+<h4 id="6-SDWebImageDownloaderOperation"><a href="#6-SDWebImageDownloaderOperation" class="headerlink" title="6.SDWebImageDownloaderOperation"></a>6.SDWebImageDownloaderOperation</h4><p>下载器的操作<br>直接看前面下载器需要用到的初始化方法<br>需要初始化了各种属性，主要是几个block，进度block，完成回调block，取消回调block</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (id)initWithRequest:(NSURLRequest *)request</span><br><span class="line">              options:(SDWebImageDownloaderOptions)options</span><br><span class="line">             progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">            completed:(SDWebImageDownloaderCompletedBlock)completedBlock</span><br><span class="line">            cancelled:(SDWebImageNoParamsBlock)cancelBlock &#123;</span><br><span class="line">    if ((self = [super init])) &#123;</span><br><span class="line">        _request = request;</span><br><span class="line">        _shouldDecompressImages = YES;</span><br><span class="line">        _shouldUseCredentialStorage = YES;</span><br><span class="line">        _options = options;</span><br><span class="line">        _progressBlock = [progressBlock copy];</span><br><span class="line">        _completedBlock = [completedBlock copy];</span><br><span class="line">        _cancelBlock = [cancelBlock copy];</span><br><span class="line">        _executing = NO;</span><br><span class="line">        _finished = NO;</span><br><span class="line">        _expectedSize = 0;</span><br><span class="line">        responseFromCached = YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-SDWebImageManager"><a href="#7-SDWebImageManager" class="headerlink" title="7.SDWebImageManager"></a>7.SDWebImageManager</h4><p>图片管理器，负责图片的下载，转换，缓存等<br>这里先说明SDWebImageOptions<br>1 &lt;&lt; X 这种是位运算符，1左移多少位，后面要用到，说明一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) &#123;</span><br><span class="line">SDWebImageRetryFailed = 1 &lt;&lt; 0，//无效url会加入黑名单，这个标志是禁用黑名单</span><br><span class="line">SDWebImageLowPriority = 1 &lt;&lt; 1, //低优先级，会后下载</span><br><span class="line">SDWebImageCacheMemoryOnly = 1 &lt;&lt; 2, //禁用磁盘缓存</span><br><span class="line">SDWebImageProgressiveDownload = 1 &lt;&lt; 3, //显示下载进度，下载完才显示</span><br><span class="line">SDWebImageRefreshCached = 1 &lt;&lt; 4, //重新从远程缓存</span><br><span class="line">SDWebImageContinueInBackground = 1 &lt;&lt; 5, //在后台继续下载图片</span><br><span class="line">SDWebImageHandleCookies = 1 &lt;&lt; 6, //把cookie存储到NSHTTPCookieStorey</span><br><span class="line">SDWebImageAllowInvalidSSLCertificates = 1 &lt;&lt; 7, //允许非信任ssl证书</span><br><span class="line">SDWebImageHighPriority = 1 &lt;&lt; 8, //高优先级，插队下载队列</span><br><span class="line">SDWebImageDelayPlaceholder = 1 &lt;&lt; 9, //显示的是替代图片(初始化图片)</span><br><span class="line">SDWebImageTransformAnimatedImage = 1 &lt;&lt; 10, //转换图片大小</span><br><span class="line">SDWebImageAvoidAutoSetImage = 1 &lt;&lt; 11 //避免自动设置图片（想手动的时候设置)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这里包含了各种选择</p>
+<p>核心方法<br>传入url，上面的options，进度block，完成回调block</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">options:(SDWebImageOptions)options</span><br><span class="line">progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionWithFinishedBlock)completedBlock;</span><br></pre></td></tr></table></figure>
+<p>实例化过程请去看源码</p>
+<p>说下其他方法<br>一个传入key判断图片是否存在存储空间的方法<br>使用的是NSFileManager的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)diskImageExistsWithKey:(NSString *)key &#123;</span><br><span class="line">    BOOL exists = NO;</span><br><span class="line">    exists = [[NSFileManager defaultManager] fileExistsAtPath:[self defaultCachePathForKey:key]];</span><br><span class="line"> </span><br><span class="line">    if (!exists) &#123;</span><br><span class="line">        exists = [[NSFileManager defaultManager] fileExistsAtPath:[[self defaultCachePathForKey:key] stringByDeletingPathExtension]];</span><br><span class="line">    &#125;</span><br><span class="line">    return exists;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有从存储空间或者缓存取出图片的方法<br>self.memCache是AutoPurgeCache（单纯继承自NSCache）的实例<br>从存储空间取图片要先判断内存中是否存在，然后才从存储空间中查找</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key &#123;</span><br><span class="line">    return [self.memCache objectForKey:key];</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">- (UIImage *)imageFromDiskCacheForKey:(NSString *)key &#123;</span><br><span class="line"> </span><br><span class="line">    UIImage *image = [self imageFromMemoryCacheForKey:key];</span><br><span class="line">    if (image) &#123;</span><br><span class="line">        return image;</span><br><span class="line">    &#125;</span><br><span class="line">    UIImage *diskImage = [self diskImageForKey:key];</span><br><span class="line">    if (diskImage &amp;&amp; self.shouldCacheImagesInMemory) &#123;</span><br><span class="line">        NSUInteger cost = SDCacheCostForImage(diskImage);</span><br><span class="line">        [self.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">    &#125;</span><br><span class="line">    return diskImage;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">- (UIImage *)diskImageForKey:(NSString *)key &#123;</span><br><span class="line">    NSData *data = [self diskImageDataBySearchingAllPathsForKey:key];</span><br><span class="line">    if (data) &#123;</span><br><span class="line">        UIImage *image = [UIImage sd_imageWithData:data];</span><br><span class="line">        image = [self scaledImageForKey:key image:image];</span><br><span class="line">        if (self.shouldDecompressImages) &#123;</span><br><span class="line">            image = [UIImage decodedImageWithImage:image];</span><br><span class="line">        &#125;</span><br><span class="line">        return image;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有几个清除方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)clearDisk;</span><br><span class="line">- (void)clearMemory;</span><br><span class="line"> </span><br><span class="line">- (void)cleanDisk;</span><br><span class="line">- (void)cleanDiskWithCompletionBlock;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-SDWebImagePrefetcher"><a href="#8-SDWebImagePrefetcher" class="headerlink" title="8.SDWebImagePrefetcher"></a>8.SDWebImagePrefetcher</h4><p>预抓取器，用来预抓取图片<br>核心方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//预抓取图片</span><br><span class="line">- (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock;</span><br><span class="line">//取消预抓取图片</span><br><span class="line">- (void)cancelPrefetching;</span><br></pre></td></tr></table></figure>
+<p>先来看预抓取图片<br>传入url，进度block，完成回调block<br>首先取消抓取，然后重新开始</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock &#123;</span><br><span class="line">    [self cancelPrefetching]; // Prevent duplicate prefetch request</span><br><span class="line">    self.startedTime = CFAbsoluteTimeGetCurrent();</span><br><span class="line">    self.prefetchURLs = urls;</span><br><span class="line">    self.completionBlock = completionBlock;</span><br><span class="line">    self.progressBlock = progressBlock;</span><br><span class="line"> </span><br><span class="line">    if (urls.count == 0) &#123;</span><br><span class="line">        if (completionBlock) &#123;</span><br><span class="line">            completionBlock(0,0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        NSUInteger listCount = self.prefetchURLs.count;</span><br><span class="line">        for (NSUInteger i = 0; i &lt; self.maxConcurrentDownloads &amp;&amp; self.requestedCount &lt; listCount; i++) &#123;</span><br><span class="line">            [self startPrefetchingAtIndex:i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后调用startPrefetchingAtIndex:方法，再调用self.manager的核心方法，即开始下载图片</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock;</span><br></pre></td></tr></table></figure>
+
+<p>最后是各种分类，即直接再初始化的控件设置图片，支持UIButton，UIImage,UIImageView，大同小异，我直接说UIImageView+WebCache</p>
+<h4 id="9-UIImageView-WebCache"><a href="#9-UIImageView-WebCache" class="headerlink" title="9.UIImageView+WebCache"></a>9.UIImageView+WebCache</h4><p>很多加载方法最终都会以缺省参数方式或者直接调用这个方法，传入一个URL，一个用来初始化的image，一个options（枚举，下面详细说明），一个progressBlock（返回图片接受进度等），一个completedBlock（完成回调block）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock;</span><br></pre></td></tr></table></figure>
+<p>首先根据url缓存图片，这里用到的是OC的runtime中的关联方法（见4）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objc_setAssociatedObject(self, &amp;imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br></pre></td></tr></table></figure>
+
+<p>然后判断options（见7）是其他选择则直接给图片赋值placehoder图片，这里判断使用的是 &amp; 与 位运算符，SDWebImageDelayPlacehoder是 1 &lt;&lt; 9，1左移9位与options相与</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!(options &amp; SDWebImageDelayPlaceholder)) &#123;</span><br><span class="line">    dispatch_main_async_safe(^&#123;</span><br><span class="line">        <span class="keyword">self</span>.image = placeholder;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果url存在，则定义图片操作，使用图片管理器的单例来调用核心方法（下载图片方法）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id &lt;SDWebImageOperation&gt; operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) &#123;</span><br><span class="line">    //过程省略</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-UIImage-GIF"><a href="#10-UIImage-GIF" class="headerlink" title="10.UIImage+GIF"></a>10.UIImage+GIF</h4><p>gif的实现使用了ImageIO中的CGImageSourceRef<br>用获得的gif数据得到CGImageSourceRef，然后算出时间，在这个时间内把图片一帧一帧的放进一个数组，最后再把这个数组和时间转成图片，就成了gif</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (UIImage *)sd_animatedGIFWithData:(NSData *)data &#123;</span><br><span class="line">    if (!data) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);</span><br><span class="line"> </span><br><span class="line">    size_t count = CGImageSourceGetCount(source);</span><br><span class="line"> </span><br><span class="line">    UIImage *animatedImage;</span><br><span class="line"> </span><br><span class="line">    if (count &lt;= 1) &#123;</span><br><span class="line">        animatedImage = [[UIImage alloc] initWithData:data];</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        NSMutableArray *images = [NSMutableArray array];</span><br><span class="line"> </span><br><span class="line">        NSTimeInterval duration = 0.0f;</span><br><span class="line"> </span><br><span class="line">        for (size_t i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);</span><br><span class="line"> </span><br><span class="line">            duration += [self sd_frameDurationAtIndex:i source:source];</span><br><span class="line"> </span><br><span class="line">            [images addObject:[UIImage imageWithCGImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];</span><br><span class="line"> </span><br><span class="line">            CGImageRelease(image);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        if (!duration) &#123;</span><br><span class="line">            duration = (1.0f / 10.0f) * count;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        animatedImage = [UIImage animatedImageWithImages:images duration:duration];</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    CFRelease(source);</span><br><span class="line"> </span><br><span class="line">    return animatedImage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>看完SDWebImage的源码后感觉学到了很多东西，特别是缓存那一块写的特别好。ImageIO和objc&#x2F;runtime很值得学习一下。也感觉到设计出这样一个库需要很强大的知识面，非常严谨的思想，真的不容易。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/03/10/xmpp_simple_im/" rel="prev" title="xmpp_simple_im">
+                  <i class="fa fa-angle-left"></i> xmpp_simple_im
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/04/10/chained_coding_pattern/" rel="next" title="链式编程思想">
+                  链式编程思想 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ascen Zhong</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

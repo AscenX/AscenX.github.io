@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/stan-touch.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/stan-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/stan-16x16.png">
+  <link rel="mask-icon" href="/images/stan.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="C++排序算法看了总结图，我这里就总结一下 直接插入排序，冒泡排序，快速排序，堆排序和归并排序，使用C++实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见排序算法C++总结">
+<meta property="og:url" content="http://ascen.me/2016/07/15/c_sort_algorithm/index.html">
+<meta property="og:site_name" content="Ascen的羽毛">
+<meta property="og:description" content="C++排序算法看了总结图，我这里就总结一下 直接插入排序，冒泡排序，快速排序，堆排序和归并排序，使用C++实现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AscenX/AscenX.github.io/backup/images/sort_algorithm.png">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-14_Insertion_sort_animation.gif">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-14_%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.gif">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-14_Sorting_quicksort_anim.gif">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-15_%E5%A0%86%E6%8E%92%E5%BA%8F.gif">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-15_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F.gif">
+<meta property="article:published_time" content="2016-07-15T12:45:44.000Z">
+<meta property="article:modified_time" content="2024-01-01T17:16:38.116Z">
+<meta property="article:author" content="Ascen Zhong">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AscenX/AscenX.github.io/backup/images/sort_algorithm.png">
+
+
+<link rel="canonical" href="http://ascen.me/2016/07/15/c_sort_algorithm/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2016/07/15/c_sort_algorithm/","path":"2016/07/15/c_sort_algorithm/","title":"常见排序算法C++总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>常见排序算法C++总结 | Ascen的羽毛</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ascen的羽毛</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">C++排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">1.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">1.3.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="nav-number">1.4.</span> <span class="nav-text">堆排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">1.5.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.6.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ascen Zhong"
+      src="/images/stan.png">
+  <p class="site-author-name" itemprop="name">Ascen Zhong</p>
+  <div class="site-description" itemprop="description">Ascen`s blog</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AscenX" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AscenX" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zyb428@gmail.com" title="E-Mail → mailto:zyb428@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2016/07/15/c_sort_algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen`s blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="常见排序算法C++总结 | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常见排序算法C++总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-07-15 20:45:44" itemprop="dateCreated datePublished" datetime="2016-07-15T20:45:44+08:00">2016-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-02 01:16:38" itemprop="dateModified" datetime="2024-01-02T01:16:38+08:00">2024-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="C-排序算法"><a href="#C-排序算法" class="headerlink" title="C++排序算法"></a>C++排序算法</h2><p>看了总结图，我这里就总结一下 直接插入排序，冒泡排序，快速排序，堆排序和归并排序，使用C++实现</p>
+<span id="more"></span>
+
+<p>重新画了总结图<br><img src="https://raw.githubusercontent.com/AscenX/AscenX.github.io/backup/images/sort_algorithm.png" alt="2016-07-15_常用排序算法.png"></p>
+<h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p>整个序列分为有序区和无序区，取第一个元素作为初始有序区，然后第二个开始，依次插入到有序区的合适位置，直到排好序</p>
+<p>刚开始在我那本《数据结构》看到大概这样的实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void InsertSort(int arr[], int len) &#123;</span><br><span class="line">    int i, j;</span><br><span class="line">    int temp;</span><br><span class="line">    for (i = 1; i &lt; len; i++) &#123;</span><br><span class="line">        temp = arr[i];</span><br><span class="line">        for (j = i - 1; j &gt;= 0 &amp;&amp; arr[j] &gt; temp;j--)</span><br><span class="line">            arr[j + 1] = arr[j];</span><br><span class="line">        arr[j + 1] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有点难理解，后来又在网上看到这样的实现，这种方式比较好理解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void InsertSort(int arr[],int n)&#123;</span><br><span class="line">    for (int i =1;i &lt;= n;++i)&#123;</span><br><span class="line">        for(int j = i;j &gt; 0;--j)&#123;</span><br><span class="line">            if(arr[j] &lt; arr[j -1])&#123;</span><br><span class="line">                int temp = arr[j];</span><br><span class="line">                arr[j] = arr[j - 1];</span><br><span class="line">                arr[j - 1] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原理都是一样的，第一个for循环对从第二个开始的所有的数字遍历，嵌套的for循环是每次遍历数字时都取无序区的一个元素与有序区的元素比较，如果比有序区的要小则交换，直到合适的位置。</p>
+<p>如果使用vector的话会方便一点，因为vector可以使用size()直接获得容器内的元素个数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void InsertSort2(vector&lt;int&gt; &amp;num)&#123;</span><br><span class="line">    for(int i = 1;i &lt; num.size();++i)&#123;</span><br><span class="line">        for(int j = i;j &gt; 0;--j)&#123;</span><br><span class="line">            if(num[j] &lt; num[j - 1])&#123;</span><br><span class="line">                int temp = num[j];</span><br><span class="line">                num[j] = num[j-1];</span><br><span class="line">                num[j-1] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>插入排序的时间复杂度最好的情况是已经是正序的序列，只需比较(n-1)次，时间复杂度为O(n)，最坏的情况是倒序的序列，要比较n(n-1)&#x2F;2次，时间复杂度为O(n^2 ) ，平均的话要比较时间复杂度为O(n^2 )</p>
+<p>插入排序是一种稳定的排序方法，排序元素比较少的时候很好，大量元素便会效率低下</p>
+<p>这个图很形象，取自维基百科<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-14_Insertion_sort_animation.gif" alt="2016-07-14_Insertion_sort_animation.gif"></p>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>比较相邻的元素，如果反序则交换，过程也是分为有序区和无序区，初始时有序区为空，所有元素都在无序区，经过第一趟后就能找出最大的元素，然后重复便可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void BubbleSort(int arr[], int n)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; n - 1; i++) &#123;</span><br><span class="line">        for (int j = 0; j &lt; n - i - 1; j++) &#123;</span><br><span class="line">            if (arr[j] &gt; arr[j + 1]) &#123;</span><br><span class="line">                int temp = arr[j];</span><br><span class="line">                arr[j] = arr[j + 1];</span><br><span class="line">                arr[j + 1] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>冒泡排序感觉非常好理解，第一个for循环是遍历所有元素，第二个for循环是每次遍历元素时都对无序区的相邻两个元素进行一次比较，若反序则交换</p>
+<p>时间复杂度最坏的情况是反序序列，要比较n(n-1)&#x2F;2次，时间复杂度为O(n^2 )，最好的情况是正序，只进行(n-1)次比较，不需要移动，时间复杂度为O(n)，而平均的时间复杂度为O(n^2 )</p>
+<p>但是还有更好的方法，如果第一次比较完没有交换即说明已经有序，不应该进行下一次遍历<br>还有已经遍历出部分有序的序列后，那部分也不用进行遍历，即发生交换的地方之后的地方不用遍历</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">void BubbleSort(int arr[], int len)&#123;</span><br><span class="line">    int i,temp;</span><br><span class="line">	//记录位置，当前所在位置和最后发生交换的地方</span><br><span class="line">	int current,last = len - 1;</span><br><span class="line">	while(last &gt; 0) &#123;</span><br><span class="line">		for(i = current = 0;i &lt; last;++i)&#123;</span><br><span class="line">			if(arr[i] &gt; arr[i+1])&#123;</span><br><span class="line">				temp = arr[i];</span><br><span class="line">				arr[i] = arr[i+1];</span><br><span class="line">				arr[i+1] = temp;</span><br><span class="line">				//记录当前的位置，如果没有发生交换current值即for循环初始化的0</span><br><span class="line">				current = i;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		//若current = 0即已经没有可以交换的元素了，即已经有序了</span><br><span class="line">		last = current;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>图取自维基<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-14_%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.gif" alt="2016-07-14_冒泡排序.gif"></p>
+<p>冒泡排序也是一种稳定的排序算法，也是元素较少时效率比较高</p>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>快速排序首先选一个轴值(pivot，也有叫基准的)，将待排序记录划分成独立的两部分，左侧的元素均小于轴值，右侧的元素均大于或等于轴值，然后对这两部分再重复，直到整个序列有序</p>
+<p>过程是和二叉搜索树相似，就是一个递归的过程</p>
+<p>排序函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">QuickSort(int arr[], int first, int end)&#123;</span><br><span class="line">	int pivot = OnceSort(arr,first,end);</span><br><span class="line">	//已经有轴值了，再对轴值左右进行递归</span><br><span class="line">	QuickSort(arr,first,pivot-1);</span><br><span class="line">	QuickSort(arr,pivot+1,end);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来就是一次排序的函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">void OnceSort(int arr[], int first, int end)&#123;</span><br><span class="line">	int i = first,j = end;</span><br><span class="line">	//当i&lt;j即移动的点还没到中间时循环</span><br><span class="line">	while(i &lt; j)&#123;</span><br><span class="line">		//右边区开始，保证i&lt;j并且arr[i]小于或者等于arr[j]的时候就向左遍历</span><br><span class="line">		while(i &lt; j &amp;&amp; arr[i] &lt;= arr[j]) --j;</span><br><span class="line">		//这时候已经跳出循环，说明j&gt;i 或者 arr[i]大于arr[j]了，如果i&lt;j那就是arr[i]大于arr[j]，那就交换</span><br><span class="line">		if(i &lt; j)&#123;</span><br><span class="line">			int temp = arr[i];</span><br><span class="line">			arr[i] = arr[j];</span><br><span class="line">			arr[j] = temp;</span><br><span class="line">		&#125;</span><br><span class="line">		//对另一边执行同样的操作</span><br><span class="line">		while(i &lt; j &amp;&amp; arr[i] &lt;= arr[j]) ++i;</span><br><span class="line">		if(i &lt; j)&#123;</span><br><span class="line">			int temp = arr[i];</span><br><span class="line">			arr[i] = arr[j];</span><br><span class="line">			arr[j] = temp;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">	//返回已经移动的一边当做下次排序的轴值</span><br><span class="line">	return i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过程解释都写在注释里面了，挺好理解的<br>这是我在书上看到的实现，用的是递归的方法<br>我在维基上还看到用迭代的方法，这里就不说了，有兴趣的可以去看看</p>
+<p>这个图不是一般的棒！！来自维基<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-14_Sorting_quicksort_anim.gif" alt="2016-07-14_Sorting_quicksort_anim.gif"></p>
+<p>快速排序时间复杂度的最好情况和平均情况一样为O(nlog2 n)，最坏情况下为O(n^2 )，这个看起来比前面两种排序都要好，但是这是不稳定的算法，并且空间复杂度高一点（ O(nlog2 n)<br>而且快速排序适用于元素多的情况</p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>堆的结构类似于完全二叉树，每个结点的值都小于或者等于其左右孩子结点的值，或者每个节点的值都大于或等于其左右孩子的值</p>
+<p>堆排序过程将待排序的序列构造成一个堆，选出堆中最大的移走，再把剩余的元素调整成堆，找出最大的再移走，重复直至有序</p>
+<p>来看一下实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//堆排序</span><br><span class="line">void HeapSort(int arr[],int len)&#123;</span><br><span class="line">    int i;</span><br><span class="line">    //初始化堆，从最后一个父节点开始</span><br><span class="line">    for(i = len/2 - 1; i &gt;= 0; --i)&#123;</span><br><span class="line">        Heapify(arr,i,len);</span><br><span class="line">    &#125;</span><br><span class="line">    //从堆中的取出最大的元素再调整堆</span><br><span class="line">    for(i = len - 1;i &gt; 0;--i)&#123;</span><br><span class="line">        int temp = arr[i];</span><br><span class="line">        arr[i] = arr[0];</span><br><span class="line">        arr[0] = temp;</span><br><span class="line">        //调整成堆</span><br><span class="line">        Heapify(arr,0,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再看 调整成堆的函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">void Heapify(int arr[], int first, int end)&#123;</span><br><span class="line">    int father = first;</span><br><span class="line">    int son = father * 2 + 1;</span><br><span class="line">    while(son &lt; end)&#123;</span><br><span class="line">        if(son + 1 &lt; end &amp;&amp; arr[son] &lt; arr[son+1]) ++son;</span><br><span class="line">        //如果父节点大于子节点则表示调整完毕</span><br><span class="line">        if(arr[father] &gt; arr[son]) break;</span><br><span class="line">        else &#123;</span><br><span class="line">        	//不然就交换父节点和子节点的元素</span><br><span class="line">            int temp = arr[father];</span><br><span class="line">            arr[father] = arr[son];</span><br><span class="line">            arr[son] = temp;</span><br><span class="line">            //父和子节点变成下一个要比较的位置</span><br><span class="line">            father = son;</span><br><span class="line">            son = 2 * father + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>堆排序的时间复杂度最好到最坏都是O(nlogn)，较多元素的时候效率比较高</p>
+<p>图来自维基<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-15_%E5%A0%86%E6%8E%92%E5%BA%8F.gif" alt="2016-07-15_堆排序.gif"></p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>归并排序的基本思想是将若干个序列进行两两归并，直至所有待排序记录都在一个有序序列为止</p>
+<p>这个图很有概括性，来自维基<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2016-07-15_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F.gif" alt="2016-07-15_归并排序.gif"></p>
+<p>我们也可以用递归的思想，每次合并就是一次递归<br>首先，将一整个序列分成两个序列，两个会分成4个，这样分下去分到最小单位，然后开始合并</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">void Merge(int arr[], int reg[], int start, int end) &#123;</span><br><span class="line">    if (start &gt;= end)return;</span><br><span class="line">    int len = end - start, mid = (len &gt;&gt; 1) + start;</span><br><span class="line"></span><br><span class="line">    //分成两部分</span><br><span class="line">    int start1 = start, end1 = mid;</span><br><span class="line">    int start2 = mid + 1, end2 = end;</span><br><span class="line">    //然后递归，分成更小的序列</span><br><span class="line">    Merge(arr, reg, start1, end1);</span><br><span class="line">    Merge(arr, reg, start2, end2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int k = start;</span><br><span class="line">    //两个序列一一比较,哪的序列的元素小就放进reg序列里面,然后位置+1再与另一个序列原来位置的元素比较</span><br><span class="line">    //如此反复,可以把两个有序的序列合并成一个有序的序列</span><br><span class="line">    while (start1 &lt;= end1 &amp;&amp; start2 &lt;= end2)</span><br><span class="line">        reg[k++] = arr[start1] &lt; arr[start2] ? arr[start1++] : arr[start2++];</span><br><span class="line">    </span><br><span class="line">    //然后这里是分情况,如果arr2序列的已经全部都放进reg序列了然后跳出了循环</span><br><span class="line">    //那就表示arr序列还有更大的元素(一个或多个)没有放进reg序列,所以这一步就是接着放</span><br><span class="line">    while (start1 &lt;= end1)</span><br><span class="line">        reg[k++] = arr[start1++];</span><br><span class="line">    </span><br><span class="line">    //这一步和上面一样</span><br><span class="line">    while (start2 &lt;= end2)</span><br><span class="line">        reg[k++] = arr[start2++];</span><br><span class="line">    //把已经有序的reg序列放回arr序列中</span><br><span class="line">    for (k = start; k &lt;= end; k++)</span><br><span class="line">        arr[k] = reg[k];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void MergeSort(int arr[], const int len) &#123;</span><br><span class="line">    //创建一个同样长度的序列,用于临时存放</span><br><span class="line">    int  reg[len];</span><br><span class="line">    Merge(arr, reg, 0, len - 1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过程解释都写在了注释里</p>
+<p>归并排序的时间复杂度都是O(nlogn)，并且适用于元素较多的时候排序</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li>1 《数据结构(C++版)》</li>
+<li>2 维基百科</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/07/08/runloop_learning_summary/" rel="prev" title="RunLoop学习总结">
+                  <i class="fa fa-angle-left"></i> RunLoop学习总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/07/29/apns_summary/" rel="next" title="APNS原理总结">
+                  APNS原理总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ascen Zhong</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

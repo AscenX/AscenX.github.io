@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/stan-touch.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/stan-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/stan-16x16.png">
+  <link rel="mask-icon" href="/images/stan.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言这是我的毕业设计。刚开始确定这个课题的时候是因为以前有稍微研究过一些XMPP协议，在这个基础上做起来应该不难。然后开始选技术的时候还有半年，我想为什么不从更底层做起呢！那就不用XMPP，当时接触过相关的即时通讯技术还有WebSocket，那为什么直接从更底层的Socket开始封装呢服务端就用Go语言吧，用来做IM服务器和HTTP服务器都很好。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开发一个即时通讯APP">
+<meta property="og:url" content="http://ascen.me/2017/06/20/im-app-developing/index.html">
+<meta property="og:site_name" content="Ascen的羽毛">
+<meta property="og:description" content="前言这是我的毕业设计。刚开始确定这个课题的时候是因为以前有稍微研究过一些XMPP协议，在这个基础上做起来应该不难。然后开始选技术的时候还有半年，我想为什么不从更底层做起呢！那就不用XMPP，当时接触过相关的即时通讯技术还有WebSocket，那为什么直接从更底层的Socket开始封装呢服务端就用Go语言吧，用来做IM服务器和HTTP服务器都很好。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-072550.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073418.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073437.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073506.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073521.jpg">
+<meta property="og:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073758.jpg">
+<meta property="article:published_time" content="2017-06-20T09:25:31.000Z">
+<meta property="article:modified_time" content="2024-01-01T17:17:24.255Z">
+<meta property="article:author" content="Ascen Zhong">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="即时通讯">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-072550.jpg">
+
+
+<link rel="canonical" href="http://ascen.me/2017/06/20/im-app-developing/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2017/06/20/im-app-developing/","path":"2017/06/20/im-app-developing/","title":"从零开发一个即时通讯APP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>从零开发一个即时通讯APP | Ascen的羽毛</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ascen的羽毛</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">技术选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">简单封装一个通讯协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%92%8C%E4%B8%8B%E4%B8%80%E6%AD%A5"><span class="nav-number">5.</span> <span class="nav-text">效果和下一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo"><span class="nav-number">6.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ascen Zhong"
+      src="/images/stan.png">
+  <p class="site-author-name" itemprop="name">Ascen Zhong</p>
+  <div class="site-description" itemprop="description">Ascen`s blog</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AscenX" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AscenX" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zyb428@gmail.com" title="E-Mail → mailto:zyb428@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2017/06/20/im-app-developing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen`s blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="从零开发一个即时通讯APP | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从零开发一个即时通讯APP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-06-20 17:25:31" itemprop="dateCreated datePublished" datetime="2017-06-20T17:25:31+08:00">2017-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-02 01:17:24" itemprop="dateModified" datetime="2024-01-02T01:17:24+08:00">2024-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这是我的毕业设计。刚开始确定这个课题的时候是因为以前有稍微研究过一些XMPP协议，在这个基础上做起来应该不难。然后开始选技术的时候还有半年，我想为什么不从更底层做起呢！那就不用XMPP，当时接触过相关的即时通讯技术还有WebSocket，那为什么直接从更底层的Socket开始封装呢<br>服务端就用Go语言吧，用来做IM服务器和HTTP服务器都很好。</p>
+<span id="more"></span>
+
+<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>既然是基于Socket，iOS端我并不准备中C语言的Socket开发封装起，而是使用一个第三方库<a target="_blank" rel="noopener" href="https://github.com/robbiehanson/CocoaAsyncSocket">CocoaAsyncSocket</a>。XMPP的iOS framework也是从这个库开始封装。而Go语言的IM服务端则直接使用原生开发即可，无论是UDP还是TCP都已经封装的很好。<br>HTTP服务器使用的框架是Gin，已经相当成熟，可以用于大型服务端的开发了。<br>关于传输的数据格式，XMPP使用的是XML，但是体积太大，冗余过多不必要的数据，考虑了很久好像也没必要自己封装二进制的数据格式，我用的是Google的protocol buffer。HTTP服务器还是使用JSON。<br>我还需要存储客户端的IP地址，由于需要快速读写，我使用的是Redis。<br>AccessToken验证方式使用的是<a target="_blank" rel="noopener" href="https://jwt.io/">JSON Web Token（JWT)</a></p>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>我的想法是使用UDP Socket来传输数据，至于为什么使用UDP呢，一开始的想法是UDP比TCP快，虽然可能会丢包但是可以试着优化。关于使用UDP来做IM这个想法也被一些大神喷过，但是这都是我自己的想法，就这样做着先。<br>使用UDP会丢包，所以我想需要一个回执机制，接收端收到了消息后就给发送端发送一个回执，这个回执包括这条消息的ID，如果发送方过一段时间还没有接受到回执的时候则重新发送。而且这个回执还不能丢，所以我使用TCP来发送回执。<br>UDP是无连接性的，还是要使用TCP来连接服务端，表明登录状态。所以TCP的作用是连接和发送回执。<br>具体思路是当客户端登录和重新连接的时候，客户端使用UDP Socket绑定端口，然后使用TCP Socket来发送UDP 地址给服务端，服务端把用户的ID和UDP地址存进Redis，等发送方发送的消息包含接收端的用户ID，服务端再从Redis取出接收方的UDP地址进行转发。<br>发送图片我是这样实现的，我会把图片上传到七牛云，发图片的URL来发送，接收端只需要使用URL来加载图片即可</p>
+<h3 id="简单封装一个通讯协议"><a href="#简单封装一个通讯协议" class="headerlink" title="简单封装一个通讯协议"></a>简单封装一个通讯协议</h3><p>就叫简单的即时通讯协议，<code>Simple Instant Messaging Protocol</code>，简称SIMP<br>我想是基于连接的，所以一个用户对应一个 SIMPConnection，每一个SIMPConnection是一个单例，使用代理进行回调</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)connectionToRemoteHost:(NSString *)host port:(NSInteger)port forUser:(NSString *)userID;</span><br></pre></td></tr></table></figure>
+
+<p>连接需要用户ID和服务器的地址和端口<br>在连接的时候就创建TCP和UDP Socket 进行连接，TCP Socket要发送连接的数据，包括UDP Socket的地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)connectionToRemoteHost:(NSString *)host port:(NSInteger)port forUser:(NSString *)userID &#123;</span><br><span class="line">    self.host = host;</span><br><span class="line">    self.port = port;</span><br><span class="line">    self.userID = userID;</span><br><span class="line">    self.tcpSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)];</span><br><span class="line">    self.udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line">    return [self connect];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)connect &#123;</span><br><span class="line">        NSError *error;</span><br><span class="line">        BOOL tcpSuccess = [self.tcpSocket connectToHost:self.host onPort:self.port error:&amp;error];</span><br><span class="line">        CheckError(@&quot;TCPSocketConnectToHost&quot;, &amp;error);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        BOOL udpSuccess = [self.udpSocket connectToHost:self.host onPort:self.port + 1 error:&amp;error];</span><br><span class="line">        </span><br><span class="line">        CheckError(@&quot;UDPSocketConnectToHost&quot;, &amp;error);</span><br><span class="line">        [self.udpSocket beginReceiving:&amp;error];</span><br><span class="line">        CheckError(@&quot;beginReceiving&quot;, &amp;error);</span><br><span class="line">        </span><br><span class="line">        [self sendConnectData];</span><br><span class="line">    return tcpSuccess &amp;&amp; udpSuccess;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有封装一个 <code>SIMPMessage</code> 里面包含protobuf的数据<br>我的protobuf数据是这样的，版本，消息的ID，时间，文字内容，图片URL，发送方的ID和接收方的ID，消息类型，图片的比例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">message Message &#123;</span><br><span class="line">    float version = 1;</span><br><span class="line">    uint64 messageId = 2;</span><br><span class="line">	uint64 time = 3;</span><br><span class="line">	string content = 4;</span><br><span class="line">	string imageURL = 5;</span><br><span class="line">	string fromUser = 6;</span><br><span class="line">	string toUser = 7;</span><br><span class="line">	MessageType type = 8;</span><br><span class="line">	float imageScale = 9;</span><br><span class="line">	enum MessageType &#123;</span><br><span class="line">    	TEXT = 0;</span><br><span class="line">    	IMAGE = 1;</span><br><span class="line">    	AUDIO = 2;</span><br><span class="line">    	CONNECT = 3;</span><br><span class="line">    	RECEIPT = 4;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有消息队列，群聊等一些我已经有想法但是还没实现的功能<br>架构<br>关于整个APP的流程如下<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-072550.jpg"></p>
+<p>关于iOS端，使用了MVVM设计模式结合RAC，在Controller里面只需要组合一下视图和布局，绑定数据即可，把处理数据和大部分逻辑都放在了ViewModel里面，结构还算清晰。<br>关于数据管理，我使用了一个Redux思想的全局数据调度中心，实现了单向数据流，数据的持久化等。数据持久化用到了FMDB。但是大部分代码是一个大神写的，很屌。</p>
+<h3 id="效果和下一步"><a href="#效果和下一步" class="headerlink" title="效果和下一步"></a>效果和下一步</h3><p>目前实现传输文字和图片，好友添加还是在后台添加（前端还没做），动态模块等。</p>
+<p>登录<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073418.jpg"></p>
+<p>通讯录<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073437.jpg"></p>
+<p>详细资料<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073506.jpg"></p>
+<p>个人资料<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073521.jpg"></p>
+<p>聊天界面<br><img src="http://7xsnb0.com1.z0.glb.clouddn.com/2017-06-23-073758.jpg"></p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><p>先上传到了github，目前功能还不完善，还会持续开发<br><a target="_blank" rel="noopener" href="https://github.com/AscenZ/Hey">https://github.com/AscenZ/Hey</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/" rel="tag"># 即时通讯</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/04/23/archive-use-xcodebuild-in-shell/" rel="prev" title="在shell上使用xcodebuild打包">
+                  <i class="fa fa-angle-left"></i> 在shell上使用xcodebuild打包
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/01/2017_summary/" rel="next" title="2017又结束啦感觉过的挺迷茫的还是总结一下吧">
+                  2017又结束啦感觉过的挺迷茫的还是总结一下吧 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ascen Zhong</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
