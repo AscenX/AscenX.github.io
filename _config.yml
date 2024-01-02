@@ -5,7 +5,7 @@
 # Site
 title: Ascen的羽毛
 subtitle: ''
-description: 'Ascen`s blog'
+description: 'Ascen的个人博客'
 keywords:
 author: Ascen Zhong
 language: zh-CN
@@ -105,8 +105,3 @@ deploy:
   type: git
   repo: git@github.com:AscenX/AscenX.github.io.git
   branch: master
-
-backup:
-  type: git
-  repository:
-      github: git@github.com:AscenX/AscenX.github.io.git,backup
