@@ -123,7 +123,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -134,7 +134,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -229,6 +229,96 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2023/06/06/uniswap_cognize/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen的个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/06/uniswap_cognize/" class="post-title-link" itemprop="url">UniSwap入门</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-06 01:25:59" itemprop="dateCreated datePublished" datetime="2023-06-06T01:25:59+08:00">2023-06-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-28 19:53:30" itemprop="dateModified" datetime="2024-01-28T19:53:30+08:00">2024-01-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近的项目有一个这样的需求，用ETH购买我们发行的Token，从购买中手续部分手续费，这部分的手续费用于ETH-Token的Liquidity和项目方的收入。这正是DEX的功能，让我有机会了解UniSwap</p>
+<h3 id="AMM-Automated-Market-Maker"><a href="#AMM-Automated-Market-Maker" class="headerlink" title="AMM (Automated Market Maker)"></a>AMM (Automated Market Maker)</h3><p>AMM是UniSwap的金交易协议，是去中心化的。AMM的核心原理是利用流动性池来完成交易。当用户想要进行交易时，他们可以直接从流动性池中交换一种资产为另一种资产，而无需依赖买卖订单的匹配。这是通过根据资产比例来计算价格完成的。</p>
+<p>流动池就是有两个币种或者多个币种组成的一个资金池，例如ETH-USDT流动池，假如有1ETH和1000USDT，那么1ETH的价格就约等于1000USDT，如果有用户使用USDT购买ETH，那么池子中的ETH会减少，USDT会增加，那么ETH的价格就会增加</p>
+<h3 id="Permissionless-Systems"><a href="#Permissionless-Systems" class="headerlink" title="Permissionless Systems"></a>Permissionless Systems</h3><p>无需许可系统。任何人都可以交易，以及任何人都可以创建池子让别人交易。</p>
+<h3 id="V3"><a href="#V3" class="headerlink" title="V3"></a>V3</h3><p>V3相对于之前的版本，之前的Liquidity的价格可以为0到无限大，而V3中定义了一个价格范围。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>适用于大体量的资金池子，如果池子资金量不够大，太容易被拉盘砸盘操纵价格</p>
+
       
     </div>
 
@@ -968,98 +1058,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/01/29/go_parallelism/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://ascen.me/2017/01/27/go_interface_reflection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/stan.png">
-      <meta itemprop="name" content="Ascen Zhong">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ascen的羽毛">
-      <meta itemprop="description" content="Ascen的个人博客">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Ascen的羽毛">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/01/27/go_interface_reflection/" class="post-title-link" itemprop="url">Go语言中的接口和反射</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-01-27 17:32:59" itemprop="dateCreated datePublished" datetime="2017-01-27T17:32:59+08:00">2017-01-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-02 01:17:29" itemprop="dateModified" datetime="2024-01-02T01:17:29+08:00">2024-01-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="接口-interface"><a href="#接口-interface" class="headerlink" title="接口 interface"></a>接口 interface</h3><p>接口就是一个或多个方法的集合，若某个类型的对象实现了所有的方法，那么这个对象就实现了这个接口<br>接口还可以存储值，只要这个类型的对象实现了这个接口，那么这个接口就可以存储这个类型的对象<br>又因为空接口(interface{})没有一个方法，每个类型的对象至少实现了0个或者0个以上的方法，所以空接口能存储任何值</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/01/27/go_interface_reflection/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
