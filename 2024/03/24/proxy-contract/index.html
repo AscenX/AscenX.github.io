@@ -19,29 +19,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="最近做的项目需要与DEX做交互，让我对DEX有了一些了解，主要是UniSwap和PancakeSwap PancakeSwap的合约是Fork UniSwap的，概念基本一样">
+    <meta name="description" content="最近在BSC上调用ERC20合约获取余额的时候发现获取不到，查看了发现合约不是普通的ERC20合约，在合约Read中看不到能调用的abi方法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DEX了解及入门">
-<meta property="og:url" content="http://ascen.me/2023/06/06/uniswap_cognize/index.html">
+<meta property="og:title" content="透明代理合约">
+<meta property="og:url" content="http://ascen.me/2024/03/24/proxy-contract/index.html">
 <meta property="og:site_name" content="Ascen的羽毛">
-<meta property="og:description" content="最近做的项目需要与DEX做交互，让我对DEX有了一些了解，主要是UniSwap和PancakeSwap PancakeSwap的合约是Fork UniSwap的，概念基本一样">
+<meta property="og:description" content="最近在BSC上调用ERC20合约获取余额的时候发现获取不到，查看了发现合约不是普通的ERC20合约，在合约Read中看不到能调用的abi方法">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-05T17:25:59.000Z">
-<meta property="article:modified_time" content="2024-03-05T21:03:02.038Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AscenX/AscenX.github.io/source/images/proxy_contract_p1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AscenX/AscenX.github.io/source/images/proxy_contract_p2.png">
+<meta property="article:published_time" content="2024-03-23T17:35:13.000Z">
+<meta property="article:modified_time" content="2024-03-24T07:15:48.423Z">
 <meta property="article:author" content="Ascen Zhong">
-<meta property="article:tag" content="UniSwap">
-<meta property="article:tag" content="Contract">
+<meta property="article:tag" content="Solidity">
+<meta property="article:tag" content="区块链">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AscenX/AscenX.github.io/source/images/proxy_contract_p1.png">
 
 
-<link rel="canonical" href="http://ascen.me/2023/06/06/uniswap_cognize/">
+<link rel="canonical" href="http://ascen.me/2024/03/24/proxy-contract/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2023/06/06/uniswap_cognize/","path":"2023/06/06/uniswap_cognize/","title":"DEX了解及入门"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2024/03/24/proxy-contract/","path":"2024/03/24/proxy-contract/","title":"透明代理合约"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>DEX了解及入门 | Ascen的羽毛</title>
+<title>透明代理合约 | Ascen的羽毛</title>
   
 
 
@@ -113,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%98%93%E5%8F%8A%E5%90%88%E7%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">交易及合约</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pair%E5%90%88%E7%BA%A6"><span class="nav-number">1.1.</span> <span class="nav-text">Pair合约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Factory%E5%90%88%E7%BA%A6"><span class="nav-number">1.2.</span> <span class="nav-text">Factory合约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1-Router"><span class="nav-number">1.3.</span> <span class="nav-text">路由 Router</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SmartRouter"><span class="nav-number">1.4.</span> <span class="nav-text">SmartRouter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%98%93%E5%8E%9F%E7%90%86%E5%8F%8A%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">交易原理及特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AMM-Automated-Market-Maker"><span class="nav-number">2.1.</span> <span class="nav-text">AMM (Automated Market Maker)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Permissionless-Systems"><span class="nav-number">2.2.</span> <span class="nav-text">Permissionless Systems</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#EIP1967%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">EIP1967是什么？</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -128,7 +131,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -139,7 +142,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -174,7 +177,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://ascen.me/2023/06/06/uniswap_cognize/">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2024/03/24/proxy-contract/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/stan.png">
@@ -187,12 +190,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="DEX了解及入门 | Ascen的羽毛">
+      <meta itemprop="name" content="透明代理合约 | Ascen的羽毛">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          DEX了解及入门
+          透明代理合约
         </h1>
 
         <div class="post-meta-container">
@@ -202,15 +205,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2023-06-06 01:25:59" itemprop="dateCreated datePublished" datetime="2023-06-06T01:25:59+08:00">2023-06-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-06 05:03:02" itemprop="dateModified" datetime="2024-03-06T05:03:02+08:00">2024-03-06</time>
+      <time title="创建时间：2024-03-24 01:35:13 / 修改时间：15:15:48" itemprop="dateCreated datePublished" datetime="2024-03-24T01:35:13+08:00">2024-03-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,26 +228,13 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>最近做的项目需要与DEX做交互，让我对DEX有了一些了解，主要是UniSwap和PancakeSwap</p>
-<p>PancakeSwap的合约是Fork UniSwap的，概念基本一样</p>
+    <div class="post-body" itemprop="articleBody"><p>最近在BSC上调用ERC20合约获取余额的时候发现获取不到，查看了发现合约不是普通的ERC20合约，在合约Read中看不到能调用的abi方法</p>
+<p><img src="https://raw.githubusercontent.com/AscenX/AscenX.github.io/source/images/proxy_contract_p1.png" alt="ERC20合约p1.png"></p>
 <span id="more"></span>
 
-
-<h3 id="交易及合约"><a href="#交易及合约" class="headerlink" title="交易及合约"></a>交易及合约</h3><p>首先，是什么币种和什么币种交易，例如使用BNB购买USDT，那么币对就是BNB-USDT<br>要能进行交易，必须要有一个池子，里面有这两种币种的资金池，这两个币种可以相互兑换，造成流动性<br>在Uniswap叫池子(Pool)，在PancakeSwap叫流动性(Liquidity)</p>
-<p>没有流动性就交易不了，当我们在池子创建了币对才有了流动性，创建了V2流动性之后，会生成一个新的LP Token合约，即下面说的Pair合约，合约对应的一定数量Token会转入到创建流动性的地址，某些DeFi功能就是使用了这个token进行质押获得分红</p>
-<h4 id="Pair合约"><a href="#Pair合约" class="headerlink" title="Pair合约"></a>Pair合约</h4><p>Pair 合约是 Uniswap 中的交易对合约，用于实现资产之间的交易。每个 Pair 合约都对应着两种不同的资产，比如 ETH&#x2F;USDT、ETH&#x2F;DAI 等。Pair 合约中包含了资产之间的价格信息、流动性提供者的信息等。</p>
-<p>那么问题来了，用户创建流动性的时候，是谁来创建Pair合约的呢，是Facotry合约</p>
-<h4 id="Factory合约"><a href="#Factory合约" class="headerlink" title="Factory合约"></a>Factory合约</h4><p>Factory 合约负责创建新的交易对（Pair 合约）。Factory 合约中存储了所有已创建的交易对的地址。</p>
-<h4 id="路由-Router"><a href="#路由-Router" class="headerlink" title="路由 Router"></a>路由 Router</h4><p>Router 合约是 Uniswap 中的路由合约，用于执行交易操作。当用户在 Uniswap 上进行交易时，实际上是通过 Router 合约来执行交易操作的。Router 合约中包含了一系列的交易函数，用户可以通过调用这些函数来进行资产交易。</p>
-<p>路由的作用就是找到对应的池子，进行兑换。如果没有对应的池子，是可以跨池子交易的，例如只有BNB-USDT, USDT-BTC 两个池子，用户想要使用BNB来兑换BTC，那么路由就可以做到兑换交易，只不过这样手续费会更高</p>
-<h4 id="SmartRouter"><a href="#SmartRouter" class="headerlink" title="SmartRouter"></a>SmartRouter</h4><p>在UniSwap 和 Pancake Swap 的路由也是在升级，现在有V2，V3都有在使用</p>
-<p>V3相对于之前的版本，之前的Liquidity的价格可以为0到无限大，而V3中定义了一个价格范围。</p>
-<p>V3适用于大体量的资金池子，如果池子资金量不够大，太容易被拉盘砸盘操纵价格</p>
-<p>用户进行交易是使用V3还是V2呢，在交易设置里可以自定义选择V3还是V2，如果没有选择的话，交易是由智能路由（SmartRouter）来进行选择的<br>经过我的测试，无论用户选择了V3还是V2，都是走SmartRouter，SmartRouter更像是最上层的一个分发器</p>
-<h3 id="交易原理及特性"><a href="#交易原理及特性" class="headerlink" title="交易原理及特性"></a>交易原理及特性</h3><p>在DEX进行Swap的话，是怎么影响价格的</p>
-<h4 id="AMM-Automated-Market-Maker"><a href="#AMM-Automated-Market-Maker" class="headerlink" title="AMM (Automated Market Maker)"></a>AMM (Automated Market Maker)</h4><p>AMM是UniSwap的交易协议，是去中心化的。AMM的核心原理是利用流动性池来完成交易。当用户想要进行交易时，他们可以直接从流动性池中交换一种资产为另一种资产，而无需依赖买卖订单的匹配。这是通过根据资产比例来计算价格完成的。</p>
-<p>流动池就是有两个币种或者多个币种组成的一个资金池，例如ETH-USDT流动池，假如有1ETH和1000USDT，那么1ETH的价格就约等于1000USDT，如果有用户使用USDT购买ETH，那么池子中的ETH会减少，USDT会增加，那么ETH的价格就会增加</p>
-<h4 id="Permissionless-Systems"><a href="#Permissionless-Systems" class="headerlink" title="Permissionless Systems"></a>Permissionless Systems</h4><p>无需许可系统。任何人都可以交易，以及任何人都可以创建池子让别人交易。</p>
+<p>在合约的 <code>Read as Proxy</code>可以看到合约的abi<br><img src="https://raw.githubusercontent.com/AscenX/AscenX.github.io/source/images/proxy_contract_p2.png" alt="ERC20合约p2.png"></p>
+<p>上面说明了使用了 EIP-1967 透明代理的模式</p>
+<h3 id="EIP1967是什么？"><a href="#EIP1967是什么？" class="headerlink" title="EIP1967是什么？"></a><a target="_blank" rel="noopener" href="https://eips.ethereum.org/EIPS/eip-1967">EIP1967</a>是什么？</h3><p>是一种合约标准，用于升级合约。通过一层代理合约，去调用另一个包含逻辑的合约，达到了合约指向和逻辑分开的目的</p>
 
     </div>
 
@@ -260,21 +244,21 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/UniSwap/" rel="tag"># UniSwap</a>
-              <a href="/tags/Contract/" rel="tag"># Contract</a>
+              <a href="/tags/Solidity/" rel="tag"># Solidity</a>
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag"># 区块链</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/01/01/2023_summary/" rel="prev" title="2023年度总结">
-                  <i class="fa fa-angle-left"></i> 2023年度总结
+                <a href="/2024/01/02/getx_refresh/" rel="prev" title="GetX刷新机制研究">
+                  <i class="fa fa-angle-left"></i> GetX刷新机制研究
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/01/02/getx_refresh/" rel="next" title="GetX刷新机制研究">
-                  GetX刷新机制研究 <i class="fa fa-angle-right"></i>
+                <a href="/2024/04/27/app-distribute/" rel="next" title="APP分发服务平台搭建">
+                  APP分发服务平台搭建 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

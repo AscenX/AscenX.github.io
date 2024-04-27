@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/stan-touch.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/stan-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/stan-16x16.png">
+  <link rel="mask-icon" href="/images/stan.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="最近做的项目需要与DEX做交互，让我对DEX有了一些了解，主要是UniSwap和PancakeSwap PancakeSwap的合约是Fork UniSwap的，概念基本一样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DEX了解及入门">
+<meta property="og:url" content="http://ascen.me/2023/06/06/dex_cognize/index.html">
+<meta property="og:site_name" content="Ascen的羽毛">
+<meta property="og:description" content="最近做的项目需要与DEX做交互，让我对DEX有了一些了解，主要是UniSwap和PancakeSwap PancakeSwap的合约是Fork UniSwap的，概念基本一样">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-05T17:25:59.000Z">
+<meta property="article:modified_time" content="2024-03-24T07:15:51.097Z">
+<meta property="article:author" content="Ascen Zhong">
+<meta property="article:tag" content="UniSwap">
+<meta property="article:tag" content="Contract">
+<meta property="article:tag" content="区块链">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://ascen.me/2023/06/06/dex_cognize/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2023/06/06/dex_cognize/","path":"2023/06/06/dex_cognize/","title":"DEX了解及入门"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DEX了解及入门 | Ascen的羽毛</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ascen的羽毛</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%98%93%E5%8F%8A%E5%90%88%E7%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">交易及合约</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pair%E5%90%88%E7%BA%A6"><span class="nav-number">1.1.</span> <span class="nav-text">Pair合约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Factory%E5%90%88%E7%BA%A6"><span class="nav-number">1.2.</span> <span class="nav-text">Factory合约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1-Router"><span class="nav-number">1.3.</span> <span class="nav-text">路由 Router</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SmartRouter"><span class="nav-number">1.4.</span> <span class="nav-text">SmartRouter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%98%93%E5%8E%9F%E7%90%86%E5%8F%8A%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">交易原理及特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AMM-Automated-Market-Maker"><span class="nav-number">2.1.</span> <span class="nav-text">AMM (Automated Market Maker)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Permissionless-Systems"><span class="nav-number">2.2.</span> <span class="nav-text">Permissionless Systems</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ascen Zhong"
+      src="/images/stan.png">
+  <p class="site-author-name" itemprop="name">Ascen Zhong</p>
+  <div class="site-description" itemprop="description">Ascen的个人博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AscenX" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AscenX" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zyb428@gmail.com" title="E-Mail → mailto:zyb428@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2023/06/06/dex_cognize/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen的个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DEX了解及入门 | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DEX了解及入门
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-06 01:25:59" itemprop="dateCreated datePublished" datetime="2023-06-06T01:25:59+08:00">2023-06-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-24 15:15:51" itemprop="dateModified" datetime="2024-03-24T15:15:51+08:00">2024-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近做的项目需要与DEX做交互，让我对DEX有了一些了解，主要是UniSwap和PancakeSwap</p>
+<p>PancakeSwap的合约是Fork UniSwap的，概念基本一样</p>
+<span id="more"></span>
+
+
+<h3 id="交易及合约"><a href="#交易及合约" class="headerlink" title="交易及合约"></a>交易及合约</h3><p>首先，是什么币种和什么币种交易，例如使用BNB购买USDT，那么币对就是BNB-USDT<br>要能进行交易，必须要有一个池子，里面有这两种币种的资金池，这两个币种可以相互兑换，造成流动性<br>在Uniswap叫池子(Pool)，在PancakeSwap叫流动性(Liquidity)</p>
+<p>没有流动性就交易不了，当我们在池子创建了币对才有了流动性，创建了V2流动性之后，会生成一个新的LP Token合约，即下面说的Pair合约，合约对应的一定数量Token会转入到创建流动性的地址，某些DeFi功能就是使用了这个token进行质押获得分红</p>
+<h4 id="Pair合约"><a href="#Pair合约" class="headerlink" title="Pair合约"></a>Pair合约</h4><p>Pair 合约是 Uniswap 中的交易对合约，用于实现资产之间的交易。每个 Pair 合约都对应着两种不同的资产，比如 ETH&#x2F;USDT、ETH&#x2F;DAI 等。Pair 合约中包含了资产之间的价格信息、流动性提供者的信息等。</p>
+<p>那么问题来了，用户创建流动性的时候，是谁来创建Pair合约的呢，是Facotry合约</p>
+<h4 id="Factory合约"><a href="#Factory合约" class="headerlink" title="Factory合约"></a>Factory合约</h4><p>Factory 合约负责创建新的交易对（Pair 合约）。Factory 合约中存储了所有已创建的交易对的地址。</p>
+<h4 id="路由-Router"><a href="#路由-Router" class="headerlink" title="路由 Router"></a>路由 Router</h4><p>Router 合约是 Uniswap 中的路由合约，用于执行交易操作。当用户在 Uniswap 上进行交易时，实际上是通过 Router 合约来执行交易操作的。Router 合约中包含了一系列的交易函数，用户可以通过调用这些函数来进行资产交易。</p>
+<p>路由的作用就是找到对应的池子，进行兑换。如果没有对应的池子，是可以跨池子交易的，例如只有BNB-USDT, USDT-BTC 两个池子，用户想要使用BNB来兑换BTC，那么路由就可以做到兑换交易，只不过这样手续费会更高</p>
+<h4 id="SmartRouter"><a href="#SmartRouter" class="headerlink" title="SmartRouter"></a>SmartRouter</h4><p>在UniSwap 和 Pancake Swap 的路由也是在升级，现在有V2，V3都有在使用</p>
+<p>V3相对于之前的版本，之前的Liquidity的价格可以为0到无限大，而V3中定义了一个价格范围。</p>
+<p>V3适用于大体量的资金池子，如果池子资金量不够大，太容易被拉盘砸盘操纵价格</p>
+<p>用户进行交易是使用V3还是V2呢，在交易设置里可以自定义选择V3还是V2，如果没有选择的话，交易是由智能路由（SmartRouter）来进行选择的<br>经过我的测试，无论用户选择了V3还是V2，都是走SmartRouter，SmartRouter更像是最上层的一个分发器</p>
+<h3 id="交易原理及特性"><a href="#交易原理及特性" class="headerlink" title="交易原理及特性"></a>交易原理及特性</h3><p>在DEX进行Swap的话，是怎么影响价格的</p>
+<h4 id="AMM-Automated-Market-Maker"><a href="#AMM-Automated-Market-Maker" class="headerlink" title="AMM (Automated Market Maker)"></a>AMM (Automated Market Maker)</h4><p>AMM是UniSwap的交易协议，是去中心化的。AMM的核心原理是利用流动性池来完成交易。当用户想要进行交易时，他们可以直接从流动性池中交换一种资产为另一种资产，而无需依赖买卖订单的匹配。这是通过根据资产比例来计算价格完成的。</p>
+<p>流动池就是有两个币种或者多个币种组成的一个资金池，例如ETH-USDT流动池，假如有1ETH和1000USDT，那么1ETH的价格就约等于1000USDT，如果有用户使用USDT购买ETH，那么池子中的ETH会减少，USDT会增加，那么ETH的价格就会增加</p>
+<h4 id="Permissionless-Systems"><a href="#Permissionless-Systems" class="headerlink" title="Permissionless Systems"></a>Permissionless Systems</h4><p>无需许可系统。任何人都可以交易，以及任何人都可以创建池子让别人交易。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/UniSwap/" rel="tag"># UniSwap</a>
+              <a href="/tags/Contract/" rel="tag"># Contract</a>
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag"># 区块链</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/01/01/2023_summary/" rel="prev" title="2023年度总结">
+                  <i class="fa fa-angle-left"></i> 2023年度总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/02/getx_refresh/" rel="next" title="GetX刷新机制研究">
+                  GetX刷新机制研究 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ascen Zhong</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
