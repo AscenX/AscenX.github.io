@@ -15,7 +15,7 @@ categories:
 <!-- more -->
 
 重新画了总结图
-![2016-07-15_常用排序算法.png](https://raw.githubusercontent.com/AscenX/AscenX.github.io/backup/images/sort_algorithm.png)
+![2016-07-15_常用排序算法.png](https://raw.githubusercontent.com/AscenX/AscenX.github.io/source/images/sort_algorithm.png)
 
 ### 直接插入排序
 整个序列分为有序区和无序区，取第一个元素作为初始有序区，然后第二个开始，依次插入到有序区的合适位置，直到排好序
