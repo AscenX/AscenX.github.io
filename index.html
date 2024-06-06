@@ -123,7 +123,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -159,6 +159,103 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2024/06/06/mpc-wallet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/stan.png">
+      <meta itemprop="name" content="Ascen Zhong">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ascen的羽毛">
+      <meta itemprop="description" content="Ascen的个人博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Ascen的羽毛">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/06/mpc-wallet/" class="post-title-link" itemprop="url">MPC无私钥钱包原理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-06-06 01:25:13 / 修改时间：03:46:49" itemprop="dateCreated datePublished" datetime="2024-06-06T01:25:13+08:00">2024-06-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="OKX无私钥钱包"><a href="#OKX无私钥钱包" class="headerlink" title="OKX无私钥钱包"></a>OKX无私钥钱包</h3><p>OKX服务器生成 私钥碎片1，用户生成私钥碎片2 和 私钥碎片3，其中私钥碎片 2 加密保存在用户设备上，私钥碎片 3 加密备份到 iCloud 或 Google Drive。交易签名时使用私钥碎片 1 + 私钥碎片 2，私钥碎片 3 用作备份。</p>
+<p>如果存在你设备上的私钥碎片泄漏了，可以使用云恢复，连接上 iCloud 或 Google Drive 获取私钥碎片 3 到本地，恢复钱包。钱包成功恢复后，3 片私钥碎片会全部重置。<strong>此重置过程不会改变用户的钱包地址（TSS私钥轮换）</strong>，资产也不会受到影响。</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://www.okx.com/zh-hans/help/what-is-okx-keyless-wallet">OKX-什么是无私钥钱包？</a></p>
+<p>OKX 无私钥钱包就是基于 MPC 技术</p>
+<h3 id="助记词钱包和MPC-钱包的区别"><a href="#助记词钱包和MPC-钱包的区别" class="headerlink" title="助记词钱包和MPC 钱包的区别"></a>助记词钱包和MPC 钱包的区别</h3><p>助记词钱包是由助记词生成种子，再由种子根据路径生成公私钥，公钥经过算法转换成地址</p>
+<p><strong>MPC钱包是没有助记词的</strong>，MPC钱包是由多个私钥碎片联合计算推导出公钥，再推导出地址</p>
+<p>关于MPC生成不同链私钥，猜测还是使用BIP44</p>
+<h3 id="MPC-多方计算"><a href="#MPC-多方计算" class="headerlink" title="MPC 多方计算"></a>MPC 多方计算</h3><ol>
+<li><p>密钥分片<br>在MPC钱包中，密钥并不是存储在单一地点，而是被分成多个密钥片段，每个参与方（例如用户设备、服务器等）都持有一个密钥片段。密钥片段的分配通常通过一种叫做秘密分享（Secret Sharing）的技术来实现，如Shamir’s Secret Sharing。</p>
+</li>
+<li><p>分布式签名<br>当需要对一笔交易进行签名时，各参与方使用各自的密钥片段，通过MPC协议进行分布式计算。这个过程确保即使密钥片段之间彼此独立，它们也能共同完成签名，而不会泄露任何单一片段。</p>
+</li>
+<li><p>交互式协议<br>参与方之间进行多轮交互，交换部分计算结果，以逐步完成整个签名过程。这种交互通常通过安全的通信渠道进行，确保各片段的数据传输安全。</p>
+</li>
+<li><p>最终签名生成<br>在完成所有交互计算后，各参与方联合生成完整的交易签名，并将签名附加到交易上。由于签名是通过分布式计算生成的，因此没有任何单一参与方能够独立计算出完整的私钥。</p>
+</li>
+</ol>
+<h3 id="门限签名-TSS"><a href="#门限签名-TSS" class="headerlink" title="门限签名 TSS"></a>门限签名 TSS</h3><p>门限签名方案是一种特殊的多重签名形式，它允许任意数量的密钥（超过某个门限值）对交易进行签名。例如，如果设置门限为2&#x2F;3，那么三把密钥中的任何两把都可以签署交易。这种方法提高了安全性和灵活性。</p>
+<h5 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h5><p>假设有一个私钥K，需要分成5个片段，门限值为3：<br>即只使用3个碎片即可完成签名</p>
+<p>密钥分片：</p>
+<p>生成私钥K。<br>使用Shamir’s Secret Sharing，将K分成5个片段K1, K2, K3, K4, K5。<br>分发给5个参与方A, B, C, D, E。<br>签名请求：</p>
+<p>需要对消息M进行签名，发起签名请求。<br>部分签名生成：</p>
+<p>A, B, C（至少3个）各自使用其片段生成部分签名S_A, S_B, S_C。<br>A的部分签名：S_A &#x3D; f(M, K1)<br>B的部分签名：S_B &#x3D; f(M, K2)<br>C的部分签名：S_C &#x3D; f(M, K3)<br>签名组合：</p>
+<p>收集到部分签名S_A, S_B, S_C后，使用Lagrange插值法组合成完整签名S。<br>验证签名：</p>
+<p>使用公钥验证S，确认其对消息M的有效性。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/okx/threshold-lib">OKX开源的门限签名算法 Go实现</a></p>
+<h4 id="私钥轮换"><a href="#私钥轮换" class="headerlink" title="私钥轮换"></a>私钥轮换</h4><p>私钥碎片：MPC钱包的私钥是通过门限签名方案（Threshold Signature Scheme, TSS）分割成多个碎片，由多个参与方分别持有。<br>公钥：各私钥碎片组合生成的公钥，用于生成钱包地址。公钥保持不变，这样钱包地址也不变</p>
+<p>只是私钥碎片的改变，新的私钥碎片还是组成原本的私钥</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -964,98 +1061,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/04/23/archive-use-xcodebuild-in-shell/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://ascen.me/2017/04/15/rac_pit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/stan.png">
-      <meta itemprop="name" content="Ascen Zhong">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ascen的羽毛">
-      <meta itemprop="description" content="Ascen的个人博客">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Ascen的羽毛">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/04/15/rac_pit/" class="post-title-link" itemprop="url">RAC的一些坑</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-04-15 20:37:12" itemprop="dateCreated datePublished" datetime="2017-04-15T20:37:12+08:00">2017-04-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-02 01:17:20" itemprop="dateModified" datetime="2024-01-02T01:17:20+08:00">2024-01-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>记得第一个项目用RAC的时候，对MVVM还不理解，通用对RAC也不理解<br>最近项目中一直在用RAC，OC版的（之前叫ReactiveCocoa，现在分离出OC版的ReactiveObjc），也算入门了吧，也终于理解了MVVM<br>现在用的越多，发现RAC一些用法是有些坑的，总结一下</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/04/15/rac_pit/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

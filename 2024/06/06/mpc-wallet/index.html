@@ -19,27 +19,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ascen.me","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="回顾20162016是有点蛋疼的一年">
+    <meta name="description" content="OKX无私钥钱包OKX服务器生成 私钥碎片1，用户生成私钥碎片2 和 私钥碎片3，其中私钥碎片 2 加密保存在用户设备上，私钥碎片 3 加密备份到 iCloud 或 Google Drive。交易签名时使用私钥碎片 1 + 私钥碎片 2，私钥碎片 3 用作备份。 如果存在你设备上的私钥碎片泄漏了，可以使用云恢复，连接上 iCloud 或 Google Drive 获取私钥碎片 3 到本地，恢复钱包">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2016年度总结">
-<meta property="og:url" content="http://ascen.me/2016/12/31/2016_summary/index.html">
+<meta property="og:title" content="MPC无私钥钱包原理">
+<meta property="og:url" content="http://ascen.me/2024/06/06/mpc-wallet/index.html">
 <meta property="og:site_name" content="Ascen的羽毛">
-<meta property="og:description" content="回顾20162016是有点蛋疼的一年">
+<meta property="og:description" content="OKX无私钥钱包OKX服务器生成 私钥碎片1，用户生成私钥碎片2 和 私钥碎片3，其中私钥碎片 2 加密保存在用户设备上，私钥碎片 3 加密备份到 iCloud 或 Google Drive。交易签名时使用私钥碎片 1 + 私钥碎片 2，私钥碎片 3 用作备份。 如果存在你设备上的私钥碎片泄漏了，可以使用云恢复，连接上 iCloud 或 Google Drive 获取私钥碎片 3 到本地，恢复钱包">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2016-12-31T13:56:26.000Z">
-<meta property="article:modified_time" content="2024-01-01T17:14:04.006Z">
+<meta property="article:published_time" content="2024-06-05T17:25:13.000Z">
+<meta property="article:modified_time" content="2024-06-05T19:46:49.903Z">
 <meta property="article:author" content="Ascen Zhong">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://ascen.me/2016/12/31/2016_summary/">
+<link rel="canonical" href="http://ascen.me/2024/06/06/mpc-wallet/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2016/12/31/2016_summary/","path":"2016/12/31/2016_summary/","title":"2016年度总结"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://ascen.me/2024/06/06/mpc-wallet/","path":"2024/06/06/mpc-wallet/","title":"MPC无私钥钱包原理"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>2016年度总结 | Ascen的羽毛</title>
+<title>MPC无私钥钱包原理 | Ascen的羽毛</title>
   
 
 
@@ -111,7 +111,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E9%A1%BE2016"><span class="nav-number">1.</span> <span class="nav-text">回顾2016</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">关于项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%8A%80%E6%9C%AF"><span class="nav-number">1.2.</span> <span class="nav-text">关于技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%B4%BB"><span class="nav-number">1.3.</span> <span class="nav-text">生活</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%95%E6%9C%9B2017"><span class="nav-number">1.4.</span> <span class="nav-text">展望2017</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%81%E4%B9%B0%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="nav-number">1.5.</span> <span class="nav-text">要买的东西</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2017-%E5%8A%A0%E6%B2%B9%EF%BC%81"><span class="nav-number">1.6.</span> <span class="nav-text">2017 加油！</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OKX%E6%97%A0%E7%A7%81%E9%92%A5%E9%92%B1%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">OKX无私钥钱包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A9%E8%AE%B0%E8%AF%8D%E9%92%B1%E5%8C%85%E5%92%8CMPC-%E9%92%B1%E5%8C%85%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">助记词钱包和MPC 钱包的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPC-%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97"><span class="nav-number">3.</span> <span class="nav-text">MPC 多方计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%A8%E9%99%90%E7%AD%BE%E5%90%8D-TSS"><span class="nav-number">4.</span> <span class="nav-text">门限签名 TSS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">4.0.1.</span> <span class="nav-text">举个例子</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%81%E9%92%A5%E8%BD%AE%E6%8D%A2"><span class="nav-number">4.1.</span> <span class="nav-text">私钥轮换</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -172,7 +172,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://ascen.me/2016/12/31/2016_summary/">
+    <link itemprop="mainEntityOfPage" href="http://ascen.me/2024/06/06/mpc-wallet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/stan.png">
@@ -185,12 +185,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="2016年度总结 | Ascen的羽毛">
+      <meta itemprop="name" content="MPC无私钥钱包原理 | Ascen的羽毛">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          2016年度总结
+          MPC无私钥钱包原理
         </h1>
 
         <div class="post-meta-container">
@@ -200,28 +200,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2016-12-31 21:56:26" itemprop="dateCreated datePublished" datetime="2016-12-31T21:56:26+08:00">2016-12-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-02 01:14:04" itemprop="dateModified" datetime="2024-01-02T01:14:04+08:00">2024-01-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/" itemprop="url" rel="index"><span itemprop="name">总结报告</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">年度总结</span></a>
-        </span>
+      <time title="创建时间：2024-06-06 01:25:13 / 修改时间：03:46:49" itemprop="dateCreated datePublished" datetime="2024-06-06T01:25:13+08:00">2024-06-06</time>
     </span>
 
   
@@ -233,20 +214,34 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="回顾2016"><a href="#回顾2016" class="headerlink" title="回顾2016"></a>回顾2016</h2><p>2016是有点蛋疼的一年</p>
-<span id="more"></span>
-
-<h3 id="关于项目"><a href="#关于项目" class="headerlink" title="关于项目"></a>关于项目</h3><p>2016是大三下学期到大四上学期。刚开始差不多一月多开始的项目“初恋”，由于过年拖了一段时间，然后3月回学校就全力开始开发。中途项目由MVC转向MVVM，也拖了一下我的进度，学习MVVM的一些机制和学习函数式编程。但是有了初步的了解之后就觉得MVVM比MVC好很多，结构清晰很多。</p>
-<p>从头开始做“初恋”也让我对产品有了一些理解。产品经理要想好需求，写需求文档和画好原型图，UI要根据原型图画好标注图，配色的一些控件的样式都是UI来设计的，每一个图上面的空间的距离都要有多少像素，等拿到标注图我们程序员就可以开始开发了。首先要开始架构好整个APP，这对于一个初级的程序员真是难度太大了。我们刚开始先写了一些界面，到了要和后台交互的时候要开始写接口文档了，这过程真的学到很多东西。</p>
-<p>后来大四就让师弟接手了全部开发，现在由于经历了太多任产品经理以及初期开发的代码的一些问题，整个项目要重构。这也是我没想到的，看来还是太年轻。</p>
-<h3 id="关于技术"><a href="#关于技术" class="headerlink" title="关于技术"></a>关于技术</h3><p>今年学了Cocos2d-x，发现大多数做界面的框架、引擎都有一些共同点，基本都是封装好控件让你来用。而Cocos2d-x之前更是模仿cocos2d写的，有些底层机制例如内存管理机制都是一样的。</p>
-<p>学Cocos2d-x的时候是用C++写的，又跑去看了一遍C++，这门复杂的语言还真是复杂。后来我又学了Lua语言，脚本语言真是轻便，我只能用这个词来形容，处理一些上层的业务非常爽快。</p>
-<p>在iOS方面，更注重基础和底层，一直在看这方面的文章。还有其他基础，C++和算法，特别是算法，感觉我这方面比较薄弱，以后还会花更多时间来研究。</p>
-<h3 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h3><p>感情受挫。😝</p>
-<p>其他还好，每天跑步3KM，希望能坚持下去。<br>除了跑步还要锻炼，我要六块腹肌！！！👊<br>开始弹吉他，也买了自己的吉他，希望能成为一个高手😆 也希望能坚持下去。<br>还有在最后一个月报了驾照，刚过了科目一。希望两个月内能拿到驾照吧。</p>
-<h3 id="展望2017"><a href="#展望2017" class="headerlink" title="展望2017"></a>展望2017</h3><p>技术<br>有很多想学的东西。注定是要奋斗的一年。<br>想学一下后台，决定要去学GO语言<br>决定要学做一个即时通讯的APP，要看这方面的知识，目前想是看XMPP<br>然后iOS除了要抓底层还要学一些新的库，现在突然多了好多新东西<br>还有就是Cocos2d-x，想做一个自己的游戏！</p>
-<h3 id="要买的东西"><a href="#要买的东西" class="headerlink" title="要买的东西"></a>要买的东西</h3><p>这些就定为2017的小目标吧<br>因为要跑步，要先买双跑步鞋<br>然后台式显卡坏了，想换一块好一点的显卡<br>想买一块手表，还有智能手环</p>
-<h3 id="2017-加油！"><a href="#2017-加油！" class="headerlink" title="2017 加油！"></a>2017 加油！</h3><p>2017会更好</p>
+    <div class="post-body" itemprop="articleBody"><h3 id="OKX无私钥钱包"><a href="#OKX无私钥钱包" class="headerlink" title="OKX无私钥钱包"></a>OKX无私钥钱包</h3><p>OKX服务器生成 私钥碎片1，用户生成私钥碎片2 和 私钥碎片3，其中私钥碎片 2 加密保存在用户设备上，私钥碎片 3 加密备份到 iCloud 或 Google Drive。交易签名时使用私钥碎片 1 + 私钥碎片 2，私钥碎片 3 用作备份。</p>
+<p>如果存在你设备上的私钥碎片泄漏了，可以使用云恢复，连接上 iCloud 或 Google Drive 获取私钥碎片 3 到本地，恢复钱包。钱包成功恢复后，3 片私钥碎片会全部重置。<strong>此重置过程不会改变用户的钱包地址（TSS私钥轮换）</strong>，资产也不会受到影响。</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://www.okx.com/zh-hans/help/what-is-okx-keyless-wallet">OKX-什么是无私钥钱包？</a></p>
+<p>OKX 无私钥钱包就是基于 MPC 技术</p>
+<h3 id="助记词钱包和MPC-钱包的区别"><a href="#助记词钱包和MPC-钱包的区别" class="headerlink" title="助记词钱包和MPC 钱包的区别"></a>助记词钱包和MPC 钱包的区别</h3><p>助记词钱包是由助记词生成种子，再由种子根据路径生成公私钥，公钥经过算法转换成地址</p>
+<p><strong>MPC钱包是没有助记词的</strong>，MPC钱包是由多个私钥碎片联合计算推导出公钥，再推导出地址</p>
+<p>关于MPC生成不同链私钥，猜测还是使用BIP44</p>
+<h3 id="MPC-多方计算"><a href="#MPC-多方计算" class="headerlink" title="MPC 多方计算"></a>MPC 多方计算</h3><ol>
+<li><p>密钥分片<br>在MPC钱包中，密钥并不是存储在单一地点，而是被分成多个密钥片段，每个参与方（例如用户设备、服务器等）都持有一个密钥片段。密钥片段的分配通常通过一种叫做秘密分享（Secret Sharing）的技术来实现，如Shamir’s Secret Sharing。</p>
+</li>
+<li><p>分布式签名<br>当需要对一笔交易进行签名时，各参与方使用各自的密钥片段，通过MPC协议进行分布式计算。这个过程确保即使密钥片段之间彼此独立，它们也能共同完成签名，而不会泄露任何单一片段。</p>
+</li>
+<li><p>交互式协议<br>参与方之间进行多轮交互，交换部分计算结果，以逐步完成整个签名过程。这种交互通常通过安全的通信渠道进行，确保各片段的数据传输安全。</p>
+</li>
+<li><p>最终签名生成<br>在完成所有交互计算后，各参与方联合生成完整的交易签名，并将签名附加到交易上。由于签名是通过分布式计算生成的，因此没有任何单一参与方能够独立计算出完整的私钥。</p>
+</li>
+</ol>
+<h3 id="门限签名-TSS"><a href="#门限签名-TSS" class="headerlink" title="门限签名 TSS"></a>门限签名 TSS</h3><p>门限签名方案是一种特殊的多重签名形式，它允许任意数量的密钥（超过某个门限值）对交易进行签名。例如，如果设置门限为2&#x2F;3，那么三把密钥中的任何两把都可以签署交易。这种方法提高了安全性和灵活性。</p>
+<h5 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h5><p>假设有一个私钥K，需要分成5个片段，门限值为3：<br>即只使用3个碎片即可完成签名</p>
+<p>密钥分片：</p>
+<p>生成私钥K。<br>使用Shamir’s Secret Sharing，将K分成5个片段K1, K2, K3, K4, K5。<br>分发给5个参与方A, B, C, D, E。<br>签名请求：</p>
+<p>需要对消息M进行签名，发起签名请求。<br>部分签名生成：</p>
+<p>A, B, C（至少3个）各自使用其片段生成部分签名S_A, S_B, S_C。<br>A的部分签名：S_A &#x3D; f(M, K1)<br>B的部分签名：S_B &#x3D; f(M, K2)<br>C的部分签名：S_C &#x3D; f(M, K3)<br>签名组合：</p>
+<p>收集到部分签名S_A, S_B, S_C后，使用Lagrange插值法组合成完整签名S。<br>验证签名：</p>
+<p>使用公钥验证S，确认其对消息M的有效性。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/okx/threshold-lib">OKX开源的门限签名算法 Go实现</a></p>
+<h4 id="私钥轮换"><a href="#私钥轮换" class="headerlink" title="私钥轮换"></a>私钥轮换</h4><p>私钥碎片：MPC钱包的私钥是通过门限签名方案（Threshold Signature Scheme, TSS）分割成多个碎片，由多个参与方分别持有。<br>公钥：各私钥碎片组合生成的公钥，用于生成钱包地址。公钥保持不变，这样钱包地址也不变</p>
+<p>只是私钥碎片的改变，新的私钥碎片还是组成原本的私钥</p>
 
     </div>
 
@@ -260,14 +255,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2016/09/13/cocos2d-x_main_element/" rel="prev" title="cocos2d-x_main_element">
-                  <i class="fa fa-angle-left"></i> cocos2d-x_main_element
+                <a href="/2024/04/27/app-distribute/" rel="prev" title="APP分发服务平台搭建">
+                  <i class="fa fa-angle-left"></i> APP分发服务平台搭建
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2017/01/06/process_thread_multithread/" rel="next" title="进程、线程理解及多线程">
-                  进程、线程理解及多线程 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
